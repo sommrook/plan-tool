@@ -29,6 +29,6 @@ public class Solution {
 
     private Boolean isDelete;
 
-    @OneToMany(mappedBy = "solution", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "solution")
     private List<Tool> tools = new ArrayList<>();
 }

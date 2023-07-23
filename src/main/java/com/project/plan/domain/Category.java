@@ -41,7 +41,7 @@ public class Category {
     @JoinColumn(name = "pjt_id")
     private Project project;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "category")
     private List<Plan> plans = new ArrayList<>();
 
     private Boolean isDelete;

@@ -32,7 +32,7 @@ public class Tool {
 
     // mappedBy의 기준은 나 자신 클래스
     // 즉, 나를 가리키는 컬럼이 무엇인지 명시하는것
-    @OneToMany(mappedBy = "tool", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "tool")
     private List<Project> projects = new ArrayList<>();
 
     private LocalDateTime createdDate;

@@ -32,7 +32,7 @@ public class Project {
 
     private LocalDateTime updatedDate;
 
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "project")
     private List<Category> categories = new ArrayList<>();
 
     private Boolean isDelete;
