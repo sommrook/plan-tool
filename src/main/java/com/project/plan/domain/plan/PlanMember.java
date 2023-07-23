@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Getter @Setter
+@Getter
 @IdClass(PlanMemberPk.class)
 public class PlanMember {
     @Id

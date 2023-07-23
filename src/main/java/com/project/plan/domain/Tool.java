@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Setter @Getter
+@Setter
 public class Tool {
 
     @Id
