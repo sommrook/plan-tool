@@ -2,17 +2,21 @@ package com.project.plan.service;
 
 import com.project.plan.domain.Member;
 import com.project.plan.domain.Permission;
-import com.project.plan.domain.dto.MemberCreateReqDto;
-import jakarta.persistence.EntityManager;
+import com.project.plan.domain.dto.MemberRequestDto;
+import com.project.plan.repository.MemberRepository;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -21,19 +25,41 @@ public class MemberServiceTest {
 
     @Autowired MemberService memberService;
 
+    @Autowired MemberRepository memberRepository;
+
+    @Before
+    public void createMember() throws Exception{
+        System.out.println("create Member");
+
+        MemberRequestDto memberRequestDto = new MemberRequestDto();
+        memberRequestDto.setAccount("user1");
+        memberRequestDto.setName("chloe");
+        memberRequestDto.setPassword("1234");
+        memberRequestDto.setPermission(Permission.ADMIN);
+
+        memberService.saveMember(memberRequestDto);
+    }
+
     @DisplayName("회원가입")
-    @Commit
     @Test
     public void saveMember() throws Exception {
         // given
-        MemberCreateReqDto memberCreateReqDto = new MemberCreateReqDto();
-        memberCreateReqDto.setAccount("user1");
-        memberCreateReqDto.setName("chloe");
-        memberCreateReqDto.setPassword("1234");
-        memberCreateReqDto.setPermission(Permission.ADMIN);
+        MemberRequestDto memberRequestDto = new MemberRequestDto();
+        memberRequestDto.setAccount("user2");
+        memberRequestDto.setName("chloe");
+        memberRequestDto.setPassword("1234");
+        memberRequestDto.setPermission(Permission.ADMIN);
 
         // when
-        Long savedId = memberService.saveMember(memberCreateReqDto);
+        memberService.saveMember(memberRequestDto);
+        List<Member> members = memberService.findAll();
+
+        for(Member member: members){
+            System.out.println("member account = " + member.getAccount());
+        }
+
+        // then
+        assertEquals("회원의 수는 2명이여야 한다.", 2, memberService.findAll().size());
 
     }
 
@@ -41,9 +67,48 @@ public class MemberServiceTest {
     @DisplayName("중복 회원 가입")
     public void saveMemberThrows() throws Exception {
         //given
+        MemberRequestDto memberRequestDto = new MemberRequestDto();
+        memberRequestDto.setAccount("user1");
+        memberRequestDto.setName("chloeeee");
+        memberRequestDto.setPassword("1234");
+        memberRequestDto.setPermission(Permission.ADMIN);
 
         //when
+        memberService.saveMember(memberRequestDto);
 
         //then
+        Assert.fail("예외가 발생해야 한다.");
+    }
+
+    @Test
+    @DisplayName("회원 정보 수정")
+    public void updateMember() throws Exception{
+        // given
+        MemberRequestDto memberRequestDto = new MemberRequestDto();
+        memberRequestDto.setAccount("user2");
+        memberRequestDto.setName("chloe");
+        memberRequestDto.setPassword("1234");
+        memberRequestDto.setPermission(Permission.ADMIN);
+        Member member = memberService.saveMember(memberRequestDto);
+
+        assertEquals("회원 이름", member.getName(), "chloe");
+        assertEquals("비밀 번호", member.getPassword(), "1234");
+        assertEquals("회원 권한", member.getPermission(), Permission.ADMIN);
+
+        // when
+        MemberRequestDto memberUpdateReqDto = new MemberRequestDto();
+        memberUpdateReqDto.setName("chloe update");
+        memberUpdateReqDto.setPassword("333");
+        memberUpdateReqDto.setPermission(Permission.PLANNER);
+        Member updatedMember = memberService.updateMember(member.getId(), memberUpdateReqDto);
+
+        // then
+        assertEquals("회원의 이름이 달라져야 한다.", member.getName(), "chloe update");
+        assertEquals("비밀 번호가 달라져야 한다.", member.getPassword(), "333");
+        assertEquals("회원 권한이 달라져야 한다.", member.getPermission(), Permission.PLANNER);
+        System.out.println("member = " + member);
+        System.out.println("updatedMember = " + updatedMember);
+        assertEquals("가리키는 멤버 객체가 같은가?", member, updatedMember);
+
     }
 }

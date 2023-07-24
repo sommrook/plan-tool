@@ -32,6 +32,12 @@ public class MemberRepository {
                 .getResultList();
     }
 
+    public List<Member> findByAccount(String account){
+        return em.createQuery("select m from Member m where m.account = :account", Member.class)
+                .setParameter("account", account)
+                .getResultList();
+    }
+
     public void delete(Long memberId){
         em.createQuery("delete m from Member m where m.id = :memberId", Member.class)
                 .setParameter("id", memberId);

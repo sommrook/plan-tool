@@ -6,11 +6,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MemberCreateReqDto {
+public class MemberRequestDto {
     private String account;
     private String password;
     private String name;
     private String email;
     private String team;
     private Permission permission;
+
 }
