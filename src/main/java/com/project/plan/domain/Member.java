@@ -6,6 +6,7 @@ import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.lang.Nullable;
 
 import java.time.LocalDateTime;
 
@@ -19,12 +20,14 @@ public class Member {
     @Column(name = "member_id")
     private Long id;
 
+    @Column(nullable = false, unique = true)
     private String account;
 
     //추후에 spring security 적용
+    @Column(nullable = false)
     private String password;
 
-    @Column(name = "member_name")
+    @Column(name = "member_name", nullable = false)
     private String name;
 
     private String email;

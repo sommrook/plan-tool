@@ -1,5 +1,6 @@
 package com.project.plan.domain;
 
+import com.project.plan.domain.dto.SolutionRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +18,7 @@ public class Solution {
     @Column(name = "solution_id")
     private Long id;
 
-    @Column(name = "solution_name")
+    @Column(name = "solution_name", nullable = false, unique = true)
     private String name;
 
     @Column(name = "solution_detail")
@@ -27,8 +28,31 @@ public class Solution {
 
     private LocalDateTime updatedDate;
 
+    @Column(nullable = false, columnDefinition = "boolean default false")
     private Boolean isDelete;
 
     @OneToMany(mappedBy = "solution")
     private List<Tool> tools = new ArrayList<>();
+
+    @PrePersist
+    protected void setCreatedDate(){
+        this.createdDate = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void setUpdatedDate(){
+        this.updatedDate = LocalDateTime.now();
+    }
+
+    public static Solution createSolution(SolutionRequestDto solutionRequestDto){
+        Solution solution = new Solution();
+        solution.name = solutionRequestDto.getName();
+        solution.detail = solutionRequestDto.getDetail();
+        return solution;
+    }
+
+    public void updateSolution(SolutionRequestDto solutionRequestDto){
+        this.name = solutionRequestDto.getName();
+        this.detail = solutionRequestDto.getDetail();
+    }
 }

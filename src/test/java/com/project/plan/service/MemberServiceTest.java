@@ -4,6 +4,7 @@ import com.project.plan.domain.Member;
 import com.project.plan.domain.Permission;
 import com.project.plan.domain.dto.MemberRequestDto;
 import com.project.plan.repository.MemberRepository;
+import org.hibernate.query.IllegalQueryOperationException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -110,5 +111,35 @@ public class MemberServiceTest {
         System.out.println("updatedMember = " + updatedMember);
         assertEquals("가리키는 멤버 객체가 같은가?", member, updatedMember);
 
+    }
+
+    @Test()
+    @DisplayName("회원 삭제")
+    public void deleteMember(){
+        MemberRequestDto memberRequestDto = new MemberRequestDto();
+        memberRequestDto.setAccount("user2");
+        memberRequestDto.setName("chloe");
+        memberRequestDto.setPassword("1234");
+        memberRequestDto.setPermission(Permission.ADMIN);
+        Member member = memberService.saveMember(memberRequestDto);
+
+        Long memberId = member.getId();
+
+        assertEquals("회원 이름", member.getName(), "chloe");
+        assertEquals("비밀 번호", member.getPassword(), "1234");
+        assertEquals("회원 권한", member.getPermission(), Permission.ADMIN);
+
+        memberService.deleteMember(memberId);
+
+        assertEquals("회원 삭제 후 전체 회원 수 감소", memberService.findAll().size(), 1);
+
+        Member findMember = memberService.findById(memberId);
+        System.out.println("findMember = " + findMember);
+
+        if (findMember == null){
+            System.out.println("member 는 삭제 되었습니다.");
+        } else {
+            Assert.fail("member 가 제대로 삭제되지 않았습니다.");
+        }
     }
 }
