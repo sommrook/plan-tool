@@ -1,9 +1,13 @@
 package com.project.plan.domain;
 
+import com.project.plan.domain.dto.CategoryRequestDto;
 import com.project.plan.domain.plan.Plan;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -11,6 +15,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@EntityListeners(AuditingEntityListener.class)
 public class Category {
 
     @Id
@@ -24,8 +29,12 @@ public class Category {
     @Column(name = "category_detail")
     private String detail;
 
+    @CreatedDate
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdDate;
 
+    @LastModifiedDate
+    @Column(nullable = false)
     private LocalDateTime updatedDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -43,5 +52,22 @@ public class Category {
     @OneToMany(mappedBy = "category")
     private List<Plan> plans = new ArrayList<>();
 
+    @Column(nullable = false, columnDefinition = "boolean default false")
     private Boolean isDelete;
+
+    // 연관 관계 메서드
+    public void setProject(Project project){
+        this.project = project;
+        project.getCategories().add(this);
+    }
+
+    public static Category createCategory(Member createdUser, Member updatedUser, Project project, CategoryRequestDto categoryRequestDto){
+        Category category = new Category();
+        category.name = categoryRequestDto.getName();
+        category.detail = categoryRequestDto.getDetail();
+        category.createdUser = createdUser;
+        category.updatedUser = updatedUser;
+        category.setProject(project);
+        return category;
+    }
 }

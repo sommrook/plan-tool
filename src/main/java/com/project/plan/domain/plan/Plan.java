@@ -2,9 +2,14 @@ package com.project.plan.domain.plan;
 
 import com.project.plan.domain.Category;
 import com.project.plan.domain.Member;
+import com.project.plan.domain.dto.PlanRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.security.core.parameters.P;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -12,12 +17,16 @@ import java.util.List;
 
 @Entity
 @Getter
+@EntityListeners(AuditingEntityListener.class)
 public class Plan {
 
     @Id
     @GeneratedValue
     @Column(name = "plan_id")
     private Long id;
+
+    @Column(name = "plan_title")
+    private String title;
 
     @Column(name = "plan_detail")
     private String detail;
@@ -28,8 +37,12 @@ public class Plan {
     @Enumerated(EnumType.STRING)
     private DevelopStatus developStatus;
 
+    @CreatedDate
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdDate;
 
+    @LastModifiedDate
+    @Column(nullable = false)
     private LocalDateTime updatedDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -46,4 +59,24 @@ public class Plan {
 
     @OneToMany(mappedBy = "plan")
     private List<PlanMember> planMembers = new ArrayList<>();
+
+    // 연관 관계 메서드
+    public void setCategory(Category category){
+        this.category = category;
+        category.getPlans().add(this);
+    }
+
+    public static Plan createPlan(Category category, List<Member> workers, PlanRequestDto planRequestDto){
+        Plan plan = new Plan();
+        plan.title = planRequestDto.getTitle();
+        plan.detail = planRequestDto.getDetail();
+        plan.planStatus = planRequestDto.getPlanStatus();
+        plan.developStatus = planRequestDto.getDevelopStatus();
+        plan.setCategory(category);
+
+        for (Member member: workers){
+            PlanMember.createPlanMember(plan, member);
+        }
+        return plan;
+    }
 }

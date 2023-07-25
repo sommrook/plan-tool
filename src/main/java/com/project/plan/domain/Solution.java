@@ -32,7 +32,7 @@ public class Solution {
     private Boolean isDelete;
 
     @OneToMany(mappedBy = "solution")
-    private List<Tool> tools = new ArrayList<>();
+    private List<Project> projects = new ArrayList<>();
 
     @PrePersist
     protected void setCreatedDate(){
