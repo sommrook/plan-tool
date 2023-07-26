@@ -1,7 +1,7 @@
 package com.project.plan.service;
 
 import com.project.plan.domain.Solution;
-import com.project.plan.domain.dto.SolutionReqDto;
+import com.project.plan.dto.SolutionReqDto;
 import com.project.plan.repository.SolutionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,8 +27,13 @@ public class SolutionService {
     }
 
     public void update(Long solutionId, SolutionReqDto solutionReqDto){
+        duplicateCheck(solutionReqDto.getName());
         Solution solution = solutionRepository.findById(solutionId);
         solution.updateSolution(solutionReqDto);
+    }
+
+    public List<Solution> findAll(){
+        return solutionRepository.findAll();
     }
 
     public void delete(Long solutionId){

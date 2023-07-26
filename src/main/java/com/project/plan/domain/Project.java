@@ -1,6 +1,6 @@
 package com.project.plan.domain;
 
-import com.project.plan.domain.dto.ProjectReqDto;
+import com.project.plan.dto.ProjectReqDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
@@ -45,6 +45,11 @@ public class Project {
     @Column(nullable = false, columnDefinition = "boolean default false")
     private Boolean isDelete;
 
+    @PrePersist
+    public void preSave(){
+        this.isDelete = this.isDelete == null ? Boolean.FALSE : this.isDelete;
+    }
+
     // 연관 관계 메서드
     public void setSolution(Solution solution){
         this.solution = solution;
@@ -57,5 +62,10 @@ public class Project {
         project.detail = projectReqDto.getDetail();
         project.setSolution(solution);
         return project;
+    }
+
+    public void updateProject(ProjectReqDto projectReqDto){
+        this.name = projectReqDto.getName();
+        this.detail = projectReqDto.getDetail();
     }
 }

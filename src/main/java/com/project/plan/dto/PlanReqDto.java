@@ -1,4 +1,4 @@
-package com.project.plan.domain.dto;
+package com.project.plan.dto;
 
 import com.project.plan.domain.plan.DevelopStatus;
 import com.project.plan.domain.plan.PlanStatus;

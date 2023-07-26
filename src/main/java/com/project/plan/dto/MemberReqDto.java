@@ -1,4 +1,4 @@
-package com.project.plan.domain.dto;
+package com.project.plan.dto;
 
 import com.project.plan.domain.Permission;
 import lombok.Getter;

@@ -2,7 +2,7 @@ package com.project.plan.domain.plan;
 
 import com.project.plan.domain.Category;
 import com.project.plan.domain.Member;
-import com.project.plan.domain.dto.PlanReqDto;
+import com.project.plan.dto.PlanReqDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
@@ -23,7 +23,7 @@ public class Plan {
     @Column(name = "plan_id")
     private Long id;
 
-    @Column(name = "plan_title")
+    @Column(name = "plan_title", unique = true)
     private String title;
 
     @Column(name = "plan_detail")

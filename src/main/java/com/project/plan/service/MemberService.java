@@ -1,7 +1,7 @@
 package com.project.plan.service;
 
 import com.project.plan.domain.Member;
-import com.project.plan.domain.dto.MemberReqDto;
+import com.project.plan.dto.MemberReqDto;
 import com.project.plan.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

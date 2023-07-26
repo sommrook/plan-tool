@@ -1,11 +1,8 @@
 package com.project.plan.domain.plan;
 
 import com.project.plan.domain.Member;
-import com.project.plan.domain.dto.PlanCommentReqDto;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
-import org.springframework.security.core.parameters.P;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

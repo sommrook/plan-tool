@@ -1,6 +1,6 @@
 package com.project.plan.domain;
 
-import com.project.plan.domain.dto.CategoryReqDto;
+import com.project.plan.dto.CategoryReqDto;
 import com.project.plan.domain.plan.Plan;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -53,6 +53,11 @@ public class Category {
 
     @Column(nullable = false, columnDefinition = "boolean default false")
     private Boolean isDelete;
+
+    @PrePersist
+    public void preSave(){
+        this.isDelete = this.isDelete == null ? Boolean.FALSE : this.isDelete;
+    }
 
     // 연관 관계 메서드
     public void setProject(Project project){

@@ -1,6 +1,6 @@
 package com.project.plan.domain;
 
-import com.project.plan.domain.dto.MemberReqDto;
+import com.project.plan.dto.MemberReqDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;

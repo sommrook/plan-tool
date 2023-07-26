@@ -2,7 +2,7 @@ package com.project.plan.service;
 
 import com.project.plan.domain.Member;
 import com.project.plan.domain.Permission;
-import com.project.plan.domain.dto.MemberReqDto;
+import com.project.plan.dto.MemberReqDto;
 import com.project.plan.repository.MemberRepository;
 import org.junit.Assert;
 import org.junit.Before;
@@ -24,8 +24,6 @@ import static org.junit.Assert.*;
 public class MemberServiceTest {
 
     @Autowired MemberService memberService;
-
-    @Autowired MemberRepository memberRepository;
 
     @Before
     public void createMember() throws Exception{

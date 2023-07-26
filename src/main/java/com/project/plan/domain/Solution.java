@@ -1,6 +1,6 @@
 package com.project.plan.domain;
 
-import com.project.plan.domain.dto.SolutionReqDto;
+import com.project.plan.dto.SolutionReqDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -34,8 +34,9 @@ public class Solution {
     private List<Project> projects = new ArrayList<>();
 
     @PrePersist
-    protected void setCreatedDate(){
+    protected void beforeSave(){
         this.createdDate = LocalDateTime.now();
+        this.isDelete = this.isDelete == null ? Boolean.FALSE : this.isDelete;
     }
 
     @PreUpdate
