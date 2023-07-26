@@ -2,9 +2,8 @@ package com.project.plan.service;
 
 import com.project.plan.domain.Member;
 import com.project.plan.domain.Permission;
-import com.project.plan.domain.dto.MemberRequestDto;
+import com.project.plan.domain.dto.MemberReqDto;
 import com.project.plan.repository.MemberRepository;
-import org.hibernate.query.IllegalQueryOperationException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,27 +31,27 @@ public class MemberServiceTest {
     public void createMember() throws Exception{
         System.out.println("create Member");
 
-        MemberRequestDto memberRequestDto = new MemberRequestDto();
-        memberRequestDto.setAccount("user1");
-        memberRequestDto.setName("chloe");
-        memberRequestDto.setPassword("1234");
-        memberRequestDto.setPermission(Permission.ADMIN);
+        MemberReqDto memberReqDto = new MemberReqDto();
+        memberReqDto.setAccount("user1");
+        memberReqDto.setName("chloe");
+        memberReqDto.setPassword("1234");
+        memberReqDto.setPermission(Permission.ADMIN);
 
-        memberService.saveMember(memberRequestDto);
+        memberService.saveMember(memberReqDto);
     }
 
     @DisplayName("회원가입")
     @Test
     public void saveMember() throws Exception {
         // given
-        MemberRequestDto memberRequestDto = new MemberRequestDto();
-        memberRequestDto.setAccount("user2");
-        memberRequestDto.setName("chloe");
-        memberRequestDto.setPassword("1234");
-        memberRequestDto.setPermission(Permission.ADMIN);
+        MemberReqDto memberReqDto = new MemberReqDto();
+        memberReqDto.setAccount("user2");
+        memberReqDto.setName("chloe");
+        memberReqDto.setPassword("1234");
+        memberReqDto.setPermission(Permission.ADMIN);
 
         // when
-        memberService.saveMember(memberRequestDto);
+        memberService.saveMember(memberReqDto);
         List<Member> members = memberService.findAll();
 
         for(Member member: members){
@@ -68,14 +67,14 @@ public class MemberServiceTest {
     @DisplayName("중복 회원 가입")
     public void saveMemberThrows() throws Exception {
         //given
-        MemberRequestDto memberRequestDto = new MemberRequestDto();
-        memberRequestDto.setAccount("user1");
-        memberRequestDto.setName("chloeeee");
-        memberRequestDto.setPassword("1234");
-        memberRequestDto.setPermission(Permission.ADMIN);
+        MemberReqDto memberReqDto = new MemberReqDto();
+        memberReqDto.setAccount("user1");
+        memberReqDto.setName("chloeeee");
+        memberReqDto.setPassword("1234");
+        memberReqDto.setPermission(Permission.ADMIN);
 
         //when
-        memberService.saveMember(memberRequestDto);
+        memberService.saveMember(memberReqDto);
 
         //then
         Assert.fail("예외가 발생해야 한다.");
@@ -85,19 +84,19 @@ public class MemberServiceTest {
     @DisplayName("회원 정보 수정")
     public void updateMember() throws Exception{
         // given
-        MemberRequestDto memberRequestDto = new MemberRequestDto();
-        memberRequestDto.setAccount("user2");
-        memberRequestDto.setName("chloe");
-        memberRequestDto.setPassword("1234");
-        memberRequestDto.setPermission(Permission.ADMIN);
-        Member member = memberService.saveMember(memberRequestDto);
+        MemberReqDto memberReqDto = new MemberReqDto();
+        memberReqDto.setAccount("user2");
+        memberReqDto.setName("chloe");
+        memberReqDto.setPassword("1234");
+        memberReqDto.setPermission(Permission.ADMIN);
+        Member member = memberService.saveMember(memberReqDto);
 
         assertEquals("회원 이름", member.getName(), "chloe");
         assertEquals("비밀 번호", member.getPassword(), "1234");
         assertEquals("회원 권한", member.getPermission(), Permission.ADMIN);
 
         // when
-        MemberRequestDto memberUpdateReqDto = new MemberRequestDto();
+        MemberReqDto memberUpdateReqDto = new MemberReqDto();
         memberUpdateReqDto.setName("chloe update");
         memberUpdateReqDto.setPassword("333");
         memberUpdateReqDto.setPermission(Permission.PLANNER);
@@ -116,12 +115,12 @@ public class MemberServiceTest {
     @Test()
     @DisplayName("회원 삭제")
     public void deleteMember(){
-        MemberRequestDto memberRequestDto = new MemberRequestDto();
-        memberRequestDto.setAccount("user2");
-        memberRequestDto.setName("chloe");
-        memberRequestDto.setPassword("1234");
-        memberRequestDto.setPermission(Permission.ADMIN);
-        Member member = memberService.saveMember(memberRequestDto);
+        MemberReqDto memberReqDto = new MemberReqDto();
+        memberReqDto.setAccount("user2");
+        memberReqDto.setName("chloe");
+        memberReqDto.setPassword("1234");
+        memberReqDto.setPermission(Permission.ADMIN);
+        Member member = memberService.saveMember(memberReqDto);
 
         Long memberId = member.getId();
 

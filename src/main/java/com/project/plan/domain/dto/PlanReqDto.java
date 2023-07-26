@@ -8,7 +8,7 @@ import lombok.Setter;
 import java.util.List;
 
 @Getter @Setter
-public class PlanRequestDto {
+public class PlanReqDto {
 
     private String title;
 

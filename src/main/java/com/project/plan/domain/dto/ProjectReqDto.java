@@ -4,9 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class CategoryRequestDto {
+public class ProjectReqDto {
 
     private String name;
 
     private String detail;
+
 }

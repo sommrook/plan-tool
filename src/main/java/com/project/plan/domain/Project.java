@@ -1,6 +1,6 @@
 package com.project.plan.domain;
 
-import com.project.plan.domain.dto.ProjectRequestDto;
+import com.project.plan.domain.dto.ProjectReqDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
@@ -51,10 +51,10 @@ public class Project {
         solution.getProjects().add(this);
     }
 
-    public static Project createProject(Solution solution, ProjectRequestDto projectRequestDto){
+    public static Project createProject(Solution solution, ProjectReqDto projectReqDto){
         Project project = new Project();
-        project.name = projectRequestDto.getName();
-        project.detail = projectRequestDto.getDetail();
+        project.name = projectReqDto.getName();
+        project.detail = projectReqDto.getDetail();
         project.setSolution(solution);
         return project;
     }

@@ -1,9 +1,8 @@
 package com.project.plan.domain;
 
-import com.project.plan.domain.dto.SolutionRequestDto;
+import com.project.plan.domain.dto.SolutionReqDto;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -44,15 +43,15 @@ public class Solution {
         this.updatedDate = LocalDateTime.now();
     }
 
-    public static Solution createSolution(SolutionRequestDto solutionRequestDto){
+    public static Solution createSolution(SolutionReqDto solutionReqDto){
         Solution solution = new Solution();
-        solution.name = solutionRequestDto.getName();
-        solution.detail = solutionRequestDto.getDetail();
+        solution.name = solutionReqDto.getName();
+        solution.detail = solutionReqDto.getDetail();
         return solution;
     }
 
-    public void updateSolution(SolutionRequestDto solutionRequestDto){
-        this.name = solutionRequestDto.getName();
-        this.detail = solutionRequestDto.getDetail();
+    public void updateSolution(SolutionReqDto solutionReqDto){
+        this.name = solutionReqDto.getName();
+        this.detail = solutionReqDto.getDetail();
     }
 }

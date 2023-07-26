@@ -3,7 +3,6 @@ package com.project.plan.domain.plan;
 import com.project.plan.domain.Member;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.security.core.parameters.P;
 
 @Entity
@@ -21,12 +20,28 @@ public class PlanMember {
     private Member member;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false, columnDefinition = "varchar(12) default 'PENDING'")
     private DevelopStatus developStatus;
 
-    public static void createPlanMember(Plan plan, Member member){
+    @PrePersist
+    public void setDevelopStatus(){
+        this.developStatus = this.developStatus == null ? DevelopStatus.PENDING : this.developStatus;
+    }
+
+    // 유저가 develop status 를 변화할 시
+    public void setDevelopStatus(DevelopStatus developStatus){
+        this.developStatus = developStatus;
+    }
+
+    public void setPlan(Plan plan){
+        this.plan = plan;
+        plan.getPlanMembers().add(this);
+    }
+
+    public static PlanMember createPlanMember(Plan plan, Member member){
         PlanMember planMember = new PlanMember();
-        planMember.plan = plan;
         planMember.member = member;
-        plan.getPlanMembers().add(planMember);
+        planMember.setPlan(plan);
+        return planMember;
     }
 }

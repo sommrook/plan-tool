@@ -1,9 +1,8 @@
 package com.project.plan.service;
 
 import com.project.plan.domain.Solution;
-import com.project.plan.domain.dto.SolutionRequestDto;
+import com.project.plan.domain.dto.SolutionReqDto;
 import com.project.plan.repository.SolutionRepository;
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,19 +16,19 @@ public class SolutionService {
 
     private final SolutionRepository solutionRepository;
 
-    public Solution save(SolutionRequestDto solutionRequestDto){
+    public Solution save(SolutionReqDto solutionReqDto){
         // 1. 중복 체크
         // 2. instance 저장
         // 3. 영속
-        duplicateCheck(solutionRequestDto.getName());
-        Solution solution = Solution.createSolution(solutionRequestDto);
+        duplicateCheck(solutionReqDto.getName());
+        Solution solution = Solution.createSolution(solutionReqDto);
         solutionRepository.save(solution);
         return solution;
     }
 
-    public void update(Long solutionId, SolutionRequestDto solutionRequestDto){
+    public void update(Long solutionId, SolutionReqDto solutionReqDto){
         Solution solution = solutionRepository.findById(solutionId);
-        solution.updateSolution(solutionRequestDto);
+        solution.updateSolution(solutionReqDto);
     }
 
     public void delete(Long solutionId){

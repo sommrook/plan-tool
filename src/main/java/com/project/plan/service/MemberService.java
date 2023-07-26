@@ -1,7 +1,7 @@
 package com.project.plan.service;
 
 import com.project.plan.domain.Member;
-import com.project.plan.domain.dto.MemberRequestDto;
+import com.project.plan.domain.dto.MemberReqDto;
 import com.project.plan.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,17 +17,17 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public Member saveMember(MemberRequestDto memberRequestDto){
-        checkDuplicateAccount(memberRequestDto.getAccount());
-        Member member = Member.createMember(memberRequestDto);
+    public Member saveMember(MemberReqDto memberReqDto){
+        checkDuplicateAccount(memberReqDto.getAccount());
+        Member member = Member.createMember(memberReqDto);
         memberRepository.save(member);
         return member;
     }
 
     @Transactional
-    public Member updateMember(Long memberId, MemberRequestDto memberRequestDto){
+    public Member updateMember(Long memberId, MemberReqDto memberReqDto){
         Member member = memberRepository.findById(memberId);
-        member.updateMember(memberRequestDto);
+        member.updateMember(memberReqDto);
         return member;
     }
 

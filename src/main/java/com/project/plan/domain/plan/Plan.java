@@ -2,14 +2,12 @@ package com.project.plan.domain.plan;
 
 import com.project.plan.domain.Category;
 import com.project.plan.domain.Member;
-import com.project.plan.domain.dto.PlanRequestDto;
+import com.project.plan.domain.dto.PlanReqDto;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.security.core.parameters.P;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -58,6 +56,10 @@ public class Plan {
     private Category category;
 
     @OneToMany(mappedBy = "plan")
+    private List<PlanComment> planComments = new ArrayList<>();
+
+
+    @OneToMany(mappedBy = "plan")
     private List<PlanMember> planMembers = new ArrayList<>();
 
     // 연관 관계 메서드
@@ -66,12 +68,12 @@ public class Plan {
         category.getPlans().add(this);
     }
 
-    public static Plan createPlan(Category category, List<Member> workers, PlanRequestDto planRequestDto){
+    public static Plan createPlan(Category category, List<Member> workers, PlanReqDto planReqDto){
         Plan plan = new Plan();
-        plan.title = planRequestDto.getTitle();
-        plan.detail = planRequestDto.getDetail();
-        plan.planStatus = planRequestDto.getPlanStatus();
-        plan.developStatus = planRequestDto.getDevelopStatus();
+        plan.title = planReqDto.getTitle();
+        plan.detail = planReqDto.getDetail();
+        plan.planStatus = planReqDto.getPlanStatus();
+        plan.developStatus = planReqDto.getDevelopStatus();
         plan.setCategory(category);
 
         for (Member member: workers){

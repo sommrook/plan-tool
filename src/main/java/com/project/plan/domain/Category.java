@@ -1,10 +1,9 @@
 package com.project.plan.domain;
 
-import com.project.plan.domain.dto.CategoryRequestDto;
+import com.project.plan.domain.dto.CategoryReqDto;
 import com.project.plan.domain.plan.Plan;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -61,10 +60,10 @@ public class Category {
         project.getCategories().add(this);
     }
 
-    public static Category createCategory(Member createdUser, Member updatedUser, Project project, CategoryRequestDto categoryRequestDto){
+    public static Category createCategory(Member createdUser, Member updatedUser, Project project, CategoryReqDto categoryReqDto){
         Category category = new Category();
-        category.name = categoryRequestDto.getName();
-        category.detail = categoryRequestDto.getDetail();
+        category.name = categoryReqDto.getName();
+        category.detail = categoryReqDto.getDetail();
         category.createdUser = createdUser;
         category.updatedUser = updatedUser;
         category.setProject(project);

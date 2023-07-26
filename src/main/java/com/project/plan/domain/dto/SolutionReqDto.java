@@ -3,11 +3,11 @@ package com.project.plan.domain.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
-public class ProjectRequestDto {
+@Setter
+@Getter
+public class SolutionReqDto {
 
     private String name;
 
     private String detail;
-
 }

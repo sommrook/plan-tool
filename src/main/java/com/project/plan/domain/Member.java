@@ -1,12 +1,11 @@
 package com.project.plan.domain;
 
-import com.project.plan.domain.dto.MemberRequestDto;
+import com.project.plan.domain.dto.MemberReqDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.lang.Nullable;
 
 import java.time.LocalDateTime;
 
@@ -47,27 +46,27 @@ public class Member {
     @Column(nullable = false)
     private LocalDateTime updatedDate;
 
-    public static Member createMember(MemberRequestDto memberRequestDto){
+    public static Member createMember(MemberReqDto memberReqDto){
         /*
         * 1. 비밀번호 암호화 => spring security
         * 2. createdDate, updatedDate 자동 생성 =>
         * */
         Member member = new Member();
-        member.account = memberRequestDto.getAccount();
-        member.password = memberRequestDto.getPassword();
-        member.name = memberRequestDto.getName();
-        member.email = memberRequestDto.getEmail();
-        member.team = memberRequestDto.getTeam();
-        member.permission = memberRequestDto.getPermission();
+        member.account = memberReqDto.getAccount();
+        member.password = memberReqDto.getPassword();
+        member.name = memberReqDto.getName();
+        member.email = memberReqDto.getEmail();
+        member.team = memberReqDto.getTeam();
+        member.permission = memberReqDto.getPermission();
         return member;
     }
 
-    public void updateMember(MemberRequestDto memberRequestDto){
-        this.password = memberRequestDto.getPassword();
-        this.name = memberRequestDto.getName();
-        this.email = memberRequestDto.getEmail();
-        this.team = memberRequestDto.getTeam();
-        this.permission = memberRequestDto.getPermission();
+    public void updateMember(MemberReqDto memberReqDto){
+        this.password = memberReqDto.getPassword();
+        this.name = memberReqDto.getName();
+        this.email = memberReqDto.getEmail();
+        this.team = memberReqDto.getTeam();
+        this.permission = memberReqDto.getPermission();
     }
 
 }

@@ -3,9 +3,8 @@ package com.project.plan.domain.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter
-@Getter
-public class SolutionRequestDto {
+@Getter @Setter
+public class CategoryReqDto {
 
     private String name;
 
