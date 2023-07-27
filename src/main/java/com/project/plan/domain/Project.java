@@ -39,7 +39,7 @@ public class Project {
     @Column(nullable = false)
     private LocalDateTime updatedDate;
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<Category> categories = new ArrayList<>();
 
     @Column(nullable = false, columnDefinition = "boolean default false")
@@ -67,5 +67,9 @@ public class Project {
     public void updateProject(ProjectReqDto projectReqDto){
         this.name = projectReqDto.getName();
         this.detail = projectReqDto.getDetail();
+    }
+
+    public void removeProject(){
+        this.solution.getProjects().remove(this);
     }
 }

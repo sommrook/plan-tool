@@ -55,11 +55,11 @@ public class Plan {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @OneToMany(mappedBy = "plan")
+    @OneToMany(mappedBy = "plan", cascade = CascadeType.ALL)
     private List<PlanComment> planComments = new ArrayList<>();
 
 
-    @OneToMany(mappedBy = "plan")
+    @OneToMany(mappedBy = "plan", cascade = CascadeType.ALL)
     private List<PlanMember> planMembers = new ArrayList<>();
 
     // 연관 관계 메서드
@@ -68,17 +68,44 @@ public class Plan {
         category.getPlans().add(this);
     }
 
-    public static Plan createPlan(Category category, List<Member> workers, PlanReqDto planReqDto){
+    public void setCreatedUser(Member member){
+        this.createdUser = member;
+        member.getPlanCreatedUser().add(this);
+    }
+
+    public void setUpdatedUser(Member member){
+        this.updatedUser = member;
+        member.getPlanUpdatedUser().add(this);
+    }
+
+    public void removeCreatedUser(){
+        this.createdUser = null;
+    }
+
+    public void removeUpdatedUser(){
+        this.updatedUser = null;
+    }
+
+    // plan 객체 삭제 시 호출
+    public void removePlan(){
+        this.createdUser.getPlanCreatedUser().remove(this);
+
+    }
+
+    public static Plan createPlan(Category category, Member createdUser, List<Member> workers, PlanReqDto planReqDto){
         Plan plan = new Plan();
         plan.title = planReqDto.getTitle();
         plan.detail = planReqDto.getDetail();
         plan.planStatus = planReqDto.getPlanStatus();
         plan.developStatus = planReqDto.getDevelopStatus();
         plan.setCategory(category);
+        plan.setCreatedUser(createdUser);
+        plan.setUpdatedUser(createdUser);
 
         for (Member member: workers){
             PlanMember.createPlanMember(plan, member);
         }
         return plan;
     }
+
 }

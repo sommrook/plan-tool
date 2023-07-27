@@ -30,7 +30,7 @@ public class Solution {
     @Column(nullable = false, columnDefinition = "boolean default false")
     private Boolean isDelete;
 
-    @OneToMany(mappedBy = "solution")
+    @OneToMany(mappedBy = "solution", cascade = CascadeType.ALL)
     private List<Project> projects = new ArrayList<>();
 
     @PrePersist

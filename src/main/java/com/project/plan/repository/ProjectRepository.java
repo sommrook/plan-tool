@@ -29,10 +29,13 @@ public class ProjectRepository {
                 .getResultList();
     }
 
-    public void delete(Long projectId){
-        em.createQuery("delete from Project p where p.id = :id")
-                .setParameter("id", projectId)
-                .executeUpdate();
-        em.clear();
+    public List<Project> findAll(Solution solution){
+        return em.createQuery("select p from Project p where p.solution = :solution", Project.class)
+                .setParameter("solution", solution)
+                .getResultList();
+    }
+
+    public void delete(Project project){
+        em.remove(project);
     }
 }

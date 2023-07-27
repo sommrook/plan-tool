@@ -47,10 +47,25 @@ public class PlanComment {
         plan.getPlanComments().add(this);
     }
 
-    public static PlanComment createUpperPlanComment(Plan plan, String content){
+    public void setCreatedUser(Member member){
+        this.createdUser = member;
+        member.getPlanCommentUser().add(this);
+    }
+
+    public void removePlanCommentUser(){
+        this.createdUser = null;
+    }
+
+    // planComment 객체 삭제 시 호출
+    public void removePlanComment(){
+        this.plan.getPlanComments().remove(this);
+    }
+
+    public static PlanComment createUpperPlanComment(Plan plan, String content, Member member){
         PlanComment planComment = new PlanComment();
         planComment.content = content;
         planComment.setPlan(plan);
+        planComment.setCreatedUser(member);
         return planComment;
     }
 

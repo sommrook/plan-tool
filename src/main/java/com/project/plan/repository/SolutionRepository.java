@@ -31,11 +31,8 @@ public class SolutionRepository {
                 .getResultList();
     }
 
-    public void deleteById(Long solutionId){
-        em.createQuery("delete from Solution s where id = :id")
-                .setParameter("id", solutionId)
-                .executeUpdate();
-        em.clear();
+    public void delete(Solution solution){
+        em.remove(solution);
     }
 
 }

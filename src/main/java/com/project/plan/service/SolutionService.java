@@ -32,12 +32,16 @@ public class SolutionService {
         solution.updateSolution(solutionReqDto);
     }
 
+    public Solution findById(Long solutionId){
+        return solutionRepository.findById(solutionId);
+    }
+
     public List<Solution> findAll(){
         return solutionRepository.findAll();
     }
 
-    public void delete(Long solutionId){
-        solutionRepository.deleteById(solutionId);
+    public void delete(Solution solution){
+        solutionRepository.delete(solution);
     }
 
     private void duplicateCheck(String solutionName) {

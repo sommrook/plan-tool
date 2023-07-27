@@ -4,6 +4,7 @@ import com.project.plan.dto.CategoryReqDto;
 import com.project.plan.domain.plan.Plan;
 import jakarta.persistence.*;
 import lombok.Getter;
+import org.apache.catalina.User;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -48,7 +49,7 @@ public class Category {
     @JoinColumn(name = "pjt_id")
     private Project project;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Plan> plans = new ArrayList<>();
 
     @Column(nullable = false, columnDefinition = "boolean default false")
@@ -65,13 +66,37 @@ public class Category {
         project.getCategories().add(this);
     }
 
-    public static Category createCategory(Member createdUser, Member updatedUser, Project project, CategoryReqDto categoryReqDto){
+    public void setCreatedUser(Member member){
+        this.createdUser = member;
+        member.getCategoryCreatedUser().add(this);
+    }
+
+    public void setUpdatedUser(Member member){
+        this.updatedUser = member;
+        member.getCategoryUpdatedUser().add(this);
+    }
+
+    public void removeCreatedUser(){
+        this.createdUser = null;
+    }
+
+    public void removeUpdatedUser(){
+        this.updatedUser = null;
+    }
+
+    public static Category createCategory(Member createdUser, Project project, CategoryReqDto categoryReqDto){
         Category category = new Category();
         category.name = categoryReqDto.getName();
         category.detail = categoryReqDto.getDetail();
-        category.createdUser = createdUser;
-        category.updatedUser = updatedUser;
         category.setProject(project);
+        category.setCreatedUser(createdUser);
+        category.setUpdatedUser(createdUser);
         return category;
+    }
+
+    public void removeCategory(){
+        this.createdUser.getCategoryCreatedUser().remove(this);
+        this.updatedUser.getCategoryUpdatedUser().remove(this);
+        this.project.getCategories().remove(this);
     }
 }

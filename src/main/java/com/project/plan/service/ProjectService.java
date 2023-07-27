@@ -37,8 +37,13 @@ public class ProjectService {
         project.updateProject(projectReqDto);
     }
 
-    public void delete(Long projectId){
-        projectRepository.delete(projectId);
+    public void delete(Project project){
+        project.removeProject();
+        projectRepository.delete(project);
+    }
+
+    public List<Project> findAll(Solution solution){
+        return projectRepository.findAll(solution);
     }
 
     private void duplicateCheck(String projectName, Solution solution) {
