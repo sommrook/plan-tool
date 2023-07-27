@@ -38,9 +38,19 @@ public class PlanMember {
         plan.getPlanMembers().add(this);
     }
 
+    public void setMember(Member member){
+        this.member = member;
+        member.getPlanMemberUser().add(this);
+    }
+
+    public void removePlanMember(){
+        this.plan.getPlanMembers().remove(this);
+        this.member.getPlanMemberUser().remove(this);
+    }
+
     public static PlanMember createPlanMember(Plan plan, Member member){
         PlanMember planMember = new PlanMember();
-        planMember.member = member;
+        planMember.setMember(member);
         planMember.setPlan(plan);
         return planMember;
     }

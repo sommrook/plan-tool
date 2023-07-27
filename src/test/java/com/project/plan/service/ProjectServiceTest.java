@@ -33,7 +33,6 @@ public class ProjectServiceTest {
 
     @DisplayName("프로젝트 생성 테스트")
     @Test
-    @Commit
     public void save(){
         SolutionReqDto solutionReqDto1 = new SolutionReqDto("Solution1", "solution1");
         Solution solution1 = solutionService.save(solutionReqDto1);
@@ -72,16 +71,16 @@ public class ProjectServiceTest {
     @DisplayName("프로젝트 수정 테스트")
     @Test
     public void update(){
-        SolutionReqDto solutionReqDto = new SolutionReqDto("Solution1", "solution1");
+        SolutionReqDto solutionReqDto = new SolutionReqDto("Solution3", "solution1");
         Solution solution = solutionService.save(solutionReqDto);
 
-        ProjectReqDto projectReqDto = new ProjectReqDto("Project1", "Project Test", solution.getId());
+        ProjectReqDto projectReqDto = new ProjectReqDto("Project3", "Project Test", solution.getId());
         Project project = projectService.save(projectReqDto);
 
-        ProjectReqDto updateReqDto = new ProjectReqDto("Project2", "Project Update Test", null);
-        project.updateProject(updateReqDto);
+        ProjectReqDto updateReqDto = new ProjectReqDto("Project333", "Project Update Test", null);
+        projectService.update(project.getId(), updateReqDto);
 
-        assertEquals("프로젝트명이 바뀌어야 한다.", "Project2", project.getName());
+        assertEquals("프로젝트명이 바뀌어야 한다.", "Project333", project.getName());
         assertEquals("프로젝트 내용이 바뀌어야 한다.", "Project Update Test", project.getDetail());
         assertEquals("solution 정보는 그 전과 동일해야 한다.", solution, project.getSolution());
 

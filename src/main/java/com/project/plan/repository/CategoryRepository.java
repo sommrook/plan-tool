@@ -29,11 +29,13 @@ public class CategoryRepository {
                 .getResultList();
     }
 
-    public void delete(Long categoryId){
-        em.createQuery("delete from Category c where c.id = :ic")
-                .setParameter("id", categoryId)
-                .executeUpdate();
+    public List<Category> findAll(Project project){
+        return em.createQuery("select c from Category c where c.project = :project", Category.class)
+                .setParameter("project", project)
+                .getResultList();
+    }
 
-        em.clear();
+    public void delete(Category category){
+        em.remove(category);
     }
 }

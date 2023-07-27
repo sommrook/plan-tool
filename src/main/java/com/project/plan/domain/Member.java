@@ -71,7 +71,7 @@ public class Member {
 
     // cascade
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<PlanMember> memberPlans = new ArrayList<>();
+    private List<PlanMember> planMemberUser = new ArrayList<>();
 
     public static Member createMember(MemberReqDto memberReqDto){
         /*

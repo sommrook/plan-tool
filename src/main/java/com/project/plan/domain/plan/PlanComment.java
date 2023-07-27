@@ -34,7 +34,7 @@ public class PlanComment {
     @JoinColumn(name = "parent_id")
     private PlanComment parent;
 
-    @OneToMany(mappedBy = "parent")
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     private List<PlanComment> child = new ArrayList<>();
 
     public void addChildComment(PlanComment planComment){
@@ -59,6 +59,10 @@ public class PlanComment {
     // planComment 객체 삭제 시 호출
     public void removePlanComment(){
         this.plan.getPlanComments().remove(this);
+        this.createdUser.getPlanCommentUser().remove(this);
+        if (this.parent != null){
+            this.parent.getChild().remove(this);
+        }
     }
 
     public static PlanComment createUpperPlanComment(Plan plan, String content, Member member){

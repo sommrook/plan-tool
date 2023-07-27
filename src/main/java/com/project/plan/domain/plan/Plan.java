@@ -89,6 +89,7 @@ public class Plan {
     // plan 객체 삭제 시 호출
     public void removePlan(){
         this.createdUser.getPlanCreatedUser().remove(this);
+        this.updatedUser.getPlanUpdatedUser().remove(this);
 
     }
 
