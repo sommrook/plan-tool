@@ -5,6 +5,7 @@ import com.project.plan.domain.Member;
 import com.project.plan.domain.Project;
 import com.project.plan.dto.CategoryReqDto;
 import com.project.plan.repository.CategoryRepository;
+import com.project.plan.repository.MemberRepository;
 import com.project.plan.repository.ProjectRepository;
 import com.project.plan.repository.SolutionRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,11 +19,13 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class CategoryService {
 
+    private final MemberRepository memberRepository;
     private final ProjectRepository projectRepository;
 
     private final CategoryRepository categoryRepository;
 
-    public Category save(CategoryReqDto categoryReqDto, Member member){
+    public Category save(CategoryReqDto categoryReqDto, Long memberId){
+        Member member = memberRepository.findById(memberId);
         Project project = projectRepository.findById(categoryReqDto.getProjectId());
         // 1. 중복체크
         duplicateCheck(categoryReqDto.getName(), project);
@@ -32,15 +35,23 @@ public class CategoryService {
         return category;
     }
 
-    public void update(Long categoryId, CategoryReqDto categoryReqDto, Member member){
+    public void update(Long categoryId, CategoryReqDto categoryReqDto, Long memberId){
+        Member member = memberRepository.findById(memberId);
         Category category = categoryRepository.findById(categoryId);
         duplicateCheck(categoryReqDto.getName(), category.getProject());
 
         category.updateCategory(categoryReqDto, member);
     }
 
-    public List<Category> findAll(Project project){
+    public List<Category> findAll(Long projectId){
+        Project project = projectRepository.findById(projectId);
         return categoryRepository.findAll(project);
+    }
+
+    public void delete(Long categoryId){
+        Category category = categoryRepository.findById(categoryId);
+        category.removeCategory();
+        categoryRepository.delete(category);
     }
 
     private void duplicateCheck(String categoryName, Project project){
@@ -48,10 +59,5 @@ public class CategoryService {
         if (!category.isEmpty()){
             throw new IllegalStateException("이미 존재하는 카테고리명입니다.");
         }
-    }
-
-    public void delete(Category category){
-        category.removeCategory();
-        categoryRepository.delete(category);
     }
 }

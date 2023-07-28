@@ -88,12 +88,23 @@ public class Plan {
 
     // plan 객체 삭제 시 호출
     public void removePlan(){
+        this.category.getPlans().remove(this);
         this.createdUser.getPlanCreatedUser().remove(this);
         this.updatedUser.getPlanUpdatedUser().remove(this);
-
     }
 
-    public static Plan createPlan(Category category, Member createdUser, List<Member> workers, PlanReqDto planReqDto){
+    public void updatePlan(PlanReqDto planReqDto, Member updatedUser){
+        this.title = planReqDto.getTitle();
+        this.detail = planReqDto.getDetail();
+        this.planStatus = planReqDto.getPlanStatus();
+        this.developStatus = planReqDto.getDevelopStatus();
+
+        // 기존 updatedUser 지워주고
+        this.updatedUser.getPlanUpdatedUser().remove(this);
+        setUpdatedUser(updatedUser);
+    }
+
+    public static Plan createPlan(Category category, Member createdUser, PlanReqDto planReqDto){
         Plan plan = new Plan();
         plan.title = planReqDto.getTitle();
         plan.detail = planReqDto.getDetail();
@@ -102,10 +113,6 @@ public class Plan {
         plan.setCategory(category);
         plan.setCreatedUser(createdUser);
         plan.setUpdatedUser(createdUser);
-
-        for (Member member: workers){
-            PlanMember.createPlanMember(plan, member);
-        }
         return plan;
     }
 

@@ -38,11 +38,13 @@ public class MemberRepository {
                 .getResultList();
     }
 
-    public void delete(Long memberId){
-        // createQuery 의 두번째 매개변수는 result class 이다. => delete 는 result 가 없으므로 명시하지 않는다.
-        em.createQuery("delete from Member m where m.id = :id")
-                .setParameter("id", memberId)
-                .executeUpdate();
-        em.clear();
+    public List<Member> findByIds(List<Long> memberIds){
+        return em.createQuery("select m from Member m where m.id in (:ids)", Member.class)
+                .setParameter("ids", memberIds)
+                .getResultList();
+    }
+
+    public void delete(Member member){
+        em.remove(member);
     }
 }

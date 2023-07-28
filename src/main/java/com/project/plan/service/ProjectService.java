@@ -37,12 +37,14 @@ public class ProjectService {
         project.updateProject(projectReqDto);
     }
 
-    public void delete(Project project){
+    public void delete(Long projectId){
+        Project project = projectRepository.findById(projectId);
         project.removeProject();
         projectRepository.delete(project);
     }
 
-    public List<Project> findAll(Solution solution){
+    public List<Project> findAll(Long solutionId){
+        Solution solution = solutionRepository.findById(solutionId);
         return projectRepository.findAll(solution);
     }
 

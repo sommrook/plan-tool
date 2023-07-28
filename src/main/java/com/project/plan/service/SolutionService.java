@@ -40,7 +40,8 @@ public class SolutionService {
         return solutionRepository.findAll();
     }
 
-    public void delete(Solution solution){
+    public void delete(Long solutionId){
+        Solution solution = solutionRepository.findById(solutionId);
         solutionRepository.delete(solution);
     }
 

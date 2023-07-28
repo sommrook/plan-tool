@@ -69,24 +69,24 @@ public class CategoryServiceTest {
     public void save() {
         CategoryReqDto categoryReqDto = new CategoryReqDto("category1", "category1의 내용입니다.", init_project1.getId());
 
-        categoryService.save(categoryReqDto, init_member1);
+        categoryService.save(categoryReqDto, init_member1.getId());
 
-        List<Category> categories = categoryService.findAll(init_project1);
+        List<Category> categories = categoryService.findAll(init_project1.getId());
 
         assertEquals("카테고리 갯수는 1개여야 한다.", 1, categories.size());
         assertEquals("프로젝트의 카테고리 갯수도 1개여야 한다.", 1, init_project1.getCategories().size());
 
-        categoryService.save(categoryReqDto, init_member1);
+        categoryService.save(categoryReqDto, init_member1.getId());
         fail("카테고리 중복 문제로 인해 실패해야 한다.");
     }
 
     @Test
     public void update() {
         CategoryReqDto categoryReqDto = new CategoryReqDto("category1", "category1의 내용입니다.", init_project1.getId());
-        Category category = categoryService.save(categoryReqDto, init_member1);
+        Category category = categoryService.save(categoryReqDto, init_member1.getId());
 
         CategoryReqDto categoryReqDto2 = new CategoryReqDto("category2", "category2 update", null);
-        categoryService.update(category.getId(), categoryReqDto2, init_member2);
+        categoryService.update(category.getId(), categoryReqDto2, init_member2.getId());
 
         assertEquals("카테고리명이 바뀌어야 한다.", "category2", category.getName());
         assertEquals("카테고리 내용이 바뀌어야 한다.", "category2 update", category.getDetail());
@@ -102,22 +102,21 @@ public class CategoryServiceTest {
     }
 
     @Test
-    @Commit
     public void delete(){
         CategoryReqDto categoryReqDto = new CategoryReqDto("category1", "category1의 내용입니다.", init_project1.getId());
-        Category category = categoryService.save(categoryReqDto, init_member1);
+        Category category = categoryService.save(categoryReqDto, init_member1.getId());
 
-        assertEquals("카테고리 갯수는 1개여야 한다.", 1, categoryService.findAll(init_project1).size());
+        assertEquals("카테고리 갯수는 1개여야 한다.", 1, categoryService.findAll(init_project1.getId()).size());
         assertEquals("프로젝트 카테고리 갯수도 1개여야 한다.", 1, init_project1.getCategories().size());
 
-        categoryService.delete(category);
+        categoryService.delete(category.getId());
 
-        assertEquals("카테고리 갯수는 0개여야 한다.", 0, categoryService.findAll(init_project1).size());
+        assertEquals("카테고리 갯수는 0개여야 한다.", 0, categoryService.findAll(init_project1.getId()).size());
         assertEquals("프로젝트 카테고리 갯수도 1개여야 한다.", 0, init_project1.getCategories().size());
 
         CategoryReqDto categoryReqDto2 = new CategoryReqDto("category1", "category1의 내용입니다.", init_project1.getId());
-        categoryService.save(categoryReqDto2, init_member1);
+        categoryService.save(categoryReqDto2, init_member1.getId());
 
-        projectService.delete(init_project1);
+        projectService.delete(init_project1.getId());
     }
 }

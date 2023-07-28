@@ -52,6 +52,7 @@ public class PlanMember {
         PlanMember planMember = new PlanMember();
         planMember.setMember(member);
         planMember.setPlan(plan);
+        plan.getPlanMembers().add(planMember);
         return planMember;
     }
 }

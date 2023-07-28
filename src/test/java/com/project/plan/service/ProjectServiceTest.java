@@ -89,7 +89,6 @@ public class ProjectServiceTest {
 
     @DisplayName("삭제 테스트")
     @Test
-    @Commit
     public void delete(){
 
 //        Solution findSolution = solutionService.findById(2L);
@@ -103,15 +102,15 @@ public class ProjectServiceTest {
         ProjectReqDto projectReqDto2 = new ProjectReqDto("Project2", "Project Test", solution.getId());
         projectService.save(projectReqDto2);
 
-        projectService.delete(project1);
+        projectService.delete(project1.getId());
 
         List<Project> solutionProjects = solution.getProjects();
-        List<Project> projects = projectService.findAll(solution);
+        List<Project> projects = projectService.findAll(solution.getId());
 
         assertEquals("프고젝트 갯수는 1개여야 한다.", 1, projects.size());
         assertEquals("프로젝트 갯수는 1개여야 한다.(solution-projects)", 1, solutionProjects.size());
 
-        solutionService.delete(solution);
+        solutionService.delete(solution.getId());
     }
 
 }

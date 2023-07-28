@@ -1,4 +1,68 @@
 package com.project.plan.service;
 
+import com.project.plan.domain.Category;
+import com.project.plan.domain.Member;
+import com.project.plan.domain.plan.Plan;
+import com.project.plan.domain.plan.PlanComment;
+import com.project.plan.domain.plan.PlanMember;
+import com.project.plan.dto.PlanReqDto;
+import com.project.plan.repository.CategoryRepository;
+import com.project.plan.repository.MemberRepository;
+import com.project.plan.repository.PlanMemberRepository;
+import com.project.plan.repository.PlanRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
 public class PlanService {
+
+    @Autowired
+    private final MemberRepository memberRepository;
+    @Autowired
+    private final CategoryRepository categoryRepository;
+    @Autowired
+    private final PlanRepository planRepository;
+    @Autowired
+    private final PlanMemberRepository planMemberRepository;
+
+    public Plan save(PlanReqDto planReqDto, Long memberId){
+        Member member = memberRepository.findById(memberId);
+        Category category = categoryRepository.findById(planReqDto.getCategoryId());
+        duplicateCheck(planReqDto.getTitle(), category);
+
+        Plan plan = Plan.createPlan(category, member, planReqDto);
+        planRepository.save(plan);
+
+        List<Member> workers = memberRepository.findByIds(planReqDto.getWorkers());
+        for (Member worker : workers){
+            PlanMember planMember= PlanMember.createPlanMember(plan, worker);
+            planMemberRepository.save(planMember);
+        }
+
+        return plan;
+    }
+
+    public void update(Long planId, PlanReqDto planReqDto, Long memberId){
+        Member updatedUser = memberRepository.findById(memberId);
+        Plan plan = planRepository.findById(planId);
+        duplicateCheck(planReqDto.getTitle(), plan.getCategory());
+        plan.updatePlan(planReqDto, updatedUser);
+    }
+
+    public void delete(Long planId){
+        Plan plan = planRepository.findById(planId);
+        plan.removePlan();
+        planRepository.delete(plan);
+    }
+
+    private void duplicateCheck(String planTitle, Category category){
+        List<Plan> plans = planRepository.findByTitle(category, planTitle);
+        if (!plans.isEmpty()){
+            throw new IllegalStateException("이미 존재하는 타이틀입니다.");
+        }
+    }
 }

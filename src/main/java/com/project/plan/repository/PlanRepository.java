@@ -22,54 +22,26 @@ public class PlanRepository {
         em.persist(plan);
     }
 
-    public void savePlanMember(PlanMember planMember){
-        em.persist(planMember);
-    }
-
-    public void savePlanComment(PlanComment planComment){
-        em.persist(planComment);
-    }
-
-    public Plan findPlanById(Long planId){
+    public Plan findById(Long planId){
         return em.find(Plan.class, planId);
     }
 
-    public PlanMember findPlanMemberById(Plan plan, Member member){
-        PlanMemberPk planMemberId = new PlanMemberPk(plan, member);
-        return em.find(PlanMember.class, planMemberId);
-    }
 
-    public PlanComment findPlanCommentById(Long commentId){
-        return em.find(PlanComment.class, commentId);
-    }
-
-    public List<Plan> findPlanByName(Category category, String planName){
-        return em.createQuery("select p from Plan p where p.category = :category and p.name = :name", Plan.class)
+    public List<Plan> findByTitle(Category category, String title){
+        return em.createQuery("select p from Plan p where p.category = :category and p.title = :title", Plan.class)
                 .setParameter("category", category)
-                .setParameter("name", planName)
+                .setParameter("title", title)
                 .getResultList();
     }
 
-
-    public void deletePlan(Long planId){
-        em.createQuery("delete from Plan p where p.id = :id")
-                .setParameter("id", planId)
-                .executeUpdate();
-        em.clear();
+    public List<Plan> findAll(Category category){
+        return em.createQuery("select p from Plan p where p.category = :category", Plan.class)
+                .setParameter("category", category)
+                .getResultList();
     }
 
-    public void deletePlanMember(Plan plan, Member member){
-        em.createQuery("delete from PlanMember pm where pm.plan = :plan and pm.member = :member")
-                .setParameter("plan", plan)
-                .setParameter("member", member)
-                .executeUpdate();
-        em.clear();
+    public void delete(Plan plan){
+        em.remove(plan);
     }
 
-    public void deletePlanComment(Long commentId){
-        em.createQuery("delete from PlanComment pc where pc.id = :id")
-                .setParameter("id", commentId)
-                .executeUpdate();
-        em.clear();
-    }
 }

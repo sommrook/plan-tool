@@ -73,7 +73,7 @@ public class SolutionServiceTest {
         SolutionReqDto solutionReqDto = new SolutionReqDto("Solution2", "solution2");
         Solution solution = solutionService.save(solutionReqDto);
 
-        solutionService.delete(solution);
+        solutionService.delete(solution.getId());
 
         List<Solution> solutions = solutionService.findAll();
 
