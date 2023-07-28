@@ -29,11 +29,8 @@ import static org.junit.Assert.fail;
 @Transactional
 public class CategoryServiceTest {
 
-    @Autowired MemberRepository memberRepository;
     @Autowired MemberService memberService;
-    @Autowired SolutionRepository solutionRepository;
     @Autowired SolutionService solutionService;
-    @Autowired ProjectRepository projectRepository;
     @Autowired ProjectService projectService;
     @Autowired CategoryService categoryService;
 

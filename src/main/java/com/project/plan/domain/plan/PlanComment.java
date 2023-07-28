@@ -65,19 +65,18 @@ public class PlanComment {
         }
     }
 
-    public static PlanComment createUpperPlanComment(Plan plan, String content, Member member){
-        PlanComment planComment = new PlanComment();
-        planComment.content = content;
-        planComment.setPlan(plan);
-        planComment.setCreatedUser(member);
-        return planComment;
+    public void updatePlanComment(String content){
+        this.content = content;
     }
 
-    public static PlanComment createLowerPlanComment(Plan plan, PlanComment parentComment, String content){
+    public static PlanComment createPlanComment(Plan plan, PlanComment parentComment, String content, Member createdUser){
         PlanComment planComment = new PlanComment();
         planComment.content = content;
         planComment.setPlan(plan);
-        parentComment.addChildComment(planComment);
+        planComment.setCreatedUser(createdUser);
+        if (parentComment != null){
+            parentComment.addChildComment(planComment);
+        }
         return planComment;
     }
 }

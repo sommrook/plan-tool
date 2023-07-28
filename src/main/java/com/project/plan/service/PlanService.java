@@ -19,14 +19,9 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class PlanService {
-
-    @Autowired
     private final MemberRepository memberRepository;
-    @Autowired
     private final CategoryRepository categoryRepository;
-    @Autowired
     private final PlanRepository planRepository;
-    @Autowired
     private final PlanMemberRepository planMemberRepository;
 
     public Plan save(PlanReqDto planReqDto, Long memberId){

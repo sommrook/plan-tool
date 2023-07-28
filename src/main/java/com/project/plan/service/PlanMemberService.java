@@ -17,13 +17,9 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class PlanMemberService {
-
-    @Autowired
-    private MemberRepository memberRepository;
-    @Autowired
-    private PlanRepository planRepository;
-    @Autowired
-    private PlanMemberRepository planMemberRepository;
+    private final MemberRepository memberRepository;
+    private final PlanRepository planRepository;
+    private final PlanMemberRepository planMemberRepository;
 
     public void add(Long planId, PlanMemberReqDto planMemberReqDto){
         List<Member> members = memberRepository.findByIds(planMemberReqDto.getWorkers());
@@ -48,6 +44,12 @@ public class PlanMemberService {
     public List<PlanMember> findAll(Long planId){
         Plan plan = planRepository.findById(planId);
         return planMemberRepository.findAll(plan);
+    }
+
+    public PlanMember findOne(Long planId, Long memberId){
+        Plan plan = planRepository.findById(planId);
+        Member member = memberRepository.findById(memberId);
+        return planMemberRepository.findById(plan, member);
     }
 
     private void duplicateCheck(Plan plan, List<Member> members){

@@ -3,7 +3,6 @@ package com.project.plan.domain.plan;
 import com.project.plan.domain.Member;
 import jakarta.persistence.*;
 import lombok.Getter;
-import org.springframework.security.core.parameters.P;
 
 @Entity
 @Getter
@@ -52,7 +51,6 @@ public class PlanMember {
         PlanMember planMember = new PlanMember();
         planMember.setMember(member);
         planMember.setPlan(plan);
-        plan.getPlanMembers().add(planMember);
         return planMember;
     }
 }
