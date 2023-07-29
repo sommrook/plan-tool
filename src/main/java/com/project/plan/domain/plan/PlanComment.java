@@ -60,6 +60,14 @@ public class PlanComment {
     public void removePlanComment() {
         this.plan.getPlanComments().remove(this);
         this.createdUser.getPlanCommentUser().remove(this);
+        if (this.parent != null) {
+            this.parent.getChild().remove(this);
+         }
+    }
+
+    public void removeChildPlanComment() {
+        this.plan.getPlanComments().remove(this);
+        this.createdUser.getPlanCommentUser().remove(this);
         /**
          * 어차피 parent가 지워지는 주체이니까 굳이 밑에 구문을 쓰지 않아도 된다.
          * if (this.parent != null) {

@@ -49,7 +49,7 @@ public class PlanCommentService {
         PlanComment planComment = planCommentRepository.findById(planCommentId);
         planComment.removePlanComment();
         for (PlanComment childComment: planComment.getChild()){
-            childComment.removePlanComment();
+            childComment.removeChildPlanComment();
             planCommentRepository.delete(childComment);
         }
         planCommentRepository.delete(planComment);
