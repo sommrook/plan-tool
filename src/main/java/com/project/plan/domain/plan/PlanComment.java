@@ -57,12 +57,15 @@ public class PlanComment {
     }
 
     // planComment 객체 삭제 시 호출
-    public void removePlanComment(){
+    public void removePlanComment() {
         this.plan.getPlanComments().remove(this);
         this.createdUser.getPlanCommentUser().remove(this);
-        if (this.parent != null){
-            this.parent.getChild().remove(this);
-        }
+        /**
+         * 어차피 parent가 지워지는 주체이니까 굳이 밑에 구문을 쓰지 않아도 된다.
+         * if (this.parent != null) {
+         *     this.parent.getChild().remove(this);
+         * }
+         **/
     }
 
     public void updatePlanComment(String content){

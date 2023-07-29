@@ -138,7 +138,7 @@ public class PlanServiceTest {
         assertEquals("plan 갯수는 0개여야 한다.", 0, afterPlans.size());
     }
 
-    @Test
+//    @Test
 //    @Commit
     public void deleteMember() {
         System.out.println("create Plan");

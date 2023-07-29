@@ -93,9 +93,8 @@ public class Plan {
         this.createdUser.getPlanCreatedUser().remove(this);
         this.updatedUser.getPlanUpdatedUser().remove(this);
         for (PlanMember planMember : this.planMembers){
-            planMember.removePlanMember();
+            planMember.removePlanMemberUser();
         }
-        this.planMembers = new ArrayList<>();
     }
 
     public void updatePlan(PlanReqDto planReqDto, Member updatedUser){

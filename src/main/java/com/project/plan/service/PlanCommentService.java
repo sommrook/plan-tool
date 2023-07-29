@@ -10,10 +10,15 @@ import com.project.plan.repository.PlanRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Iterator;
+import java.util.List;
 
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class PlanCommentService {
 
     private final MemberRepository memberRepository;
@@ -23,13 +28,16 @@ public class PlanCommentService {
     public PlanComment save(PlanCommentReqDto planCommentReqDto, Long memberId){
         Plan plan = planRepository.findById(planCommentReqDto.getPlanId());
         Member member = memberRepository.findById(memberId);
+        PlanComment planComment = null;
         if (planCommentReqDto.getParentId() != null){
             PlanComment parentComment = planCommentRepository.findById(planCommentReqDto.getParentId());
-            return PlanComment.createPlanComment(plan, parentComment, planCommentReqDto.getContent(), member);
+            planComment = PlanComment.createPlanComment(plan, parentComment, planCommentReqDto.getContent(), member);
         }
         else {
-            return PlanComment.createPlanComment(plan, null, planCommentReqDto.getContent(), member);
+            planComment = PlanComment.createPlanComment(plan, null, planCommentReqDto.getContent(), member);
         }
+        planCommentRepository.save(planComment);
+        return planComment;
     }
 
     public void update(PlanCommentReqDto planCommentReqDto){
@@ -40,6 +48,16 @@ public class PlanCommentService {
     public void delete(Long planCommentId){
         PlanComment planComment = planCommentRepository.findById(planCommentId);
         planComment.removePlanComment();
+        for (PlanComment childComment: planComment.getChild()){
+            childComment.removePlanComment();
+            planCommentRepository.delete(childComment);
+        }
         planCommentRepository.delete(planComment);
+    }
+
+    @Transactional(readOnly = true)
+    public List<PlanComment> findAll(Long planId){
+        Plan plan = planRepository.findById(planId);
+        return planCommentRepository.findAll(plan);
     }
 }
