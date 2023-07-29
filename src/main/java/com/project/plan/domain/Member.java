@@ -97,20 +97,24 @@ public class Member {
     }
 
     public void removeUser(){
+        /**
+         * category 반복문을 도는 와중에 category.getCategoryCreatedUser().remove(this);
+         * 을 해서 반복문이 다 돌기 전에 index가 달라져서 ConcurrentModificationException 이 터진다.
+         */
         for (Category category: this.categoryCreatedUser){
-            category.removeCreatedUser();
+            category.removeAtCreatedUser();
         }
         for (Category category: this.categoryUpdatedUser){
-            category.removeUpdatedUser();
+            category.removeAtUpdatedUser();
         }
         for (Plan plan: this.planCreatedUser){
-            plan.removeCreatedUser();
+            plan.removeAtCreatedUser();
         }
         for (Plan plan: this.planUpdatedUser){
-            plan.removeUpdatedUser();
+            plan.removeAtUpdatedUser();
         }
         for (PlanComment planComment: this.planCommentUser){
-            planComment.removePlanCommentUser();
+            planComment.removeAtPlanCommentUser();
         }
     }
 

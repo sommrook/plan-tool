@@ -55,11 +55,10 @@ public class Plan {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @OneToMany(mappedBy = "plan", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "plan", cascade = CascadeType.REMOVE)
     private List<PlanComment> planComments = new ArrayList<>();
 
-
-    @OneToMany(mappedBy = "plan", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "plan")
     private List<PlanMember> planMembers = new ArrayList<>();
 
     // 연관 관계 메서드
@@ -78,19 +77,25 @@ public class Plan {
         member.getPlanUpdatedUser().add(this);
     }
 
-    public void removeCreatedUser(){
+    public void removeAtCreatedUser(){
         this.createdUser = null;
     }
 
-    public void removeUpdatedUser(){
+    public void removeAtUpdatedUser(){
         this.updatedUser = null;
     }
 
     // plan 객체 삭제 시 호출
     public void removePlan(){
+        // cascade 옵션 사용할 때에는 cascade 를 할 자식을 비우면 안된다.
+        // PlanMember 는 Member 에서도 참조하고 있기 때문에 둘 중 하나만 cascade 옵션을 사용해야 한다.
         this.category.getPlans().remove(this);
         this.createdUser.getPlanCreatedUser().remove(this);
         this.updatedUser.getPlanUpdatedUser().remove(this);
+        for (PlanMember planMember : this.planMembers){
+            planMember.removePlanMember();
+        }
+        this.planMembers = new ArrayList<>();
     }
 
     public void updatePlan(PlanReqDto planReqDto, Member updatedUser){

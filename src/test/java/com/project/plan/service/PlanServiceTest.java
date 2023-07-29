@@ -16,6 +16,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,7 +64,7 @@ public class PlanServiceTest {
         init_category = categoryService.save(categoryReqDto, init_member1.getId());
     }
 
-    @Test
+    @Test(expected = IllegalStateException.class)
     public void save() {
         System.out.println("create Plan");
         List<Long> memberIds = new ArrayList<>();
@@ -85,13 +86,82 @@ public class PlanServiceTest {
         Assertions.assertThat(init_member1.getPlanCreatedUser()).contains(plan);
         Assertions.assertThat(init_member1.getPlanMemberUser()).contains(planMember1);
         Assertions.assertThat(init_member2.getPlanMemberUser()).contains(planMember2);
+
+        planService.save(planReqDto, init_member2.getId());
+        fail("중복 예외로 실패해야 한다.");
+
     }
 
     @Test
     public void update() {
+        List<Long> memberIds = new ArrayList<>();
+        memberIds.add(init_member1.getId());
+        memberIds.add(init_member2.getId());
+        PlanReqDto planReqDto = new PlanReqDto("title1", "기획 변경", PlanStatus.NEW, DevelopStatus.PENDING, init_category.getId(), memberIds);
+        Plan plan = planService.save(planReqDto, init_member1.getId());
+
+        PlanReqDto updateReqDto = new PlanReqDto("title2", "기획 변경 - 업데이트", PlanStatus.NEW, DevelopStatus.PROGRESS, null, null);
+        plan.updatePlan(updateReqDto, init_member2);
+
+        assertEquals("업데이트 된 타이틀이 반영되어야 한다.", "title2", plan.getTitle());
+        assertEquals("업데이트 된 내용이 반영되어야 한다.", "기획 변경 - 업데이트", plan.getDetail());
+        assertEquals("업데이트 된 사용자로 반영되어야 한다.", init_member2, plan.getUpdatedUser());
+        Assertions.assertThat(init_member2.getPlanUpdatedUser()).contains(plan);
     }
 
     @Test
     public void delete() {
+        List<Long> memberIds = new ArrayList<>();
+        memberIds.add(init_member1.getId());
+        memberIds.add(init_member2.getId());
+        PlanReqDto planReqDto = new PlanReqDto("title1", "기획 변경", PlanStatus.NEW, DevelopStatus.PENDING, init_category.getId(), memberIds);
+        Plan plan = planService.save(planReqDto, init_member1.getId());
+
+        List<Plan> beforePlans = planService.findAll(init_category.getId());
+
+        assertEquals("category 의 plan 갯수는 1개여야 한다.",1, init_category.getPlans().size());
+        assertEquals("plan 갯수는 1개여야 한다.", 1, beforePlans.size());
+        assertEquals("planMember의 갯수는 2여야 한다.", 2, plan.getPlanMembers().size());
+
+        planService.delete(plan.getId());
+
+        List<Plan> afterPlans = planService.findAll(init_category.getId());
+        List<PlanMember> planMembers = plan.getPlanMembers();
+        for (PlanMember planMember : planMembers){
+            System.out.println(planMember.getMember().getAccount());
+        }
+        System.out.println("========================");
+
+        assertEquals("category 의 plan 갯수는 0개여야 한다.", 0, init_category.getPlans().size());
+        assertEquals("plan created User 갯수는 0개", 0, init_member1.getPlanCreatedUser().size());
+        assertEquals("plan updated User 갯수는 0개", 0, init_member1.getPlanUpdatedUser().size());
+        assertEquals("plan 갯수는 0개여야 한다.", 0, afterPlans.size());
+    }
+
+    @Test
+//    @Commit
+    public void deleteMember() {
+        System.out.println("create Plan");
+        List<Long> memberIds = new ArrayList<>();
+        memberIds.add(init_member1.getId());
+        memberIds.add(init_member2.getId());
+        PlanReqDto planReqDto = new PlanReqDto("title1", "기획 변경", PlanStatus.NEW, DevelopStatus.PENDING, init_category.getId(), memberIds);
+        Plan plan = planService.save(planReqDto, init_member1.getId());
+
+        List<PlanMember> planMembers = planMemberService.findAll(plan.getId());
+        PlanMember planMember1 = planMemberService.findOne(plan.getId(), init_member1.getId());
+        PlanMember planMember2 = planMemberService.findOne(plan.getId(), init_member2.getId());
+
+        assertEquals("plan title의 값이 일치해야 한다.", "title1", plan.getTitle());
+        assertEquals("plan detail의 값이 일치해야 한다.", "기획 변경", plan.getDetail());
+        assertEquals("plan의 member가 일치해야 한다.", 2, plan.getPlanMembers().size());
+
+        assertEquals("planMember의 정보와도 일치해야 한다.", 2, planMembers.size());
+        assertEquals("plan의 createdUser가 일치해야 한다.", init_member1, plan.getCreatedUser());
+        Assertions.assertThat(init_member1.getPlanCreatedUser()).contains(plan);
+        Assertions.assertThat(init_member1.getPlanMemberUser()).contains(planMember1);
+        Assertions.assertThat(init_member2.getPlanMemberUser()).contains(planMember2);
+
+        memberService.deleteMember(init_member1.getId());
     }
 }

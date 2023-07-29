@@ -77,11 +77,11 @@ public class Category {
     }
 
     // createdUser FK인 Member 가 지워지면 null 처리
-    public void removeCreatedUser(){
+    public void removeAtCreatedUser(){
         this.createdUser = null;
     }
 
-    public void removeUpdatedUser(){
+    public void removeAtUpdatedUser(){
         this.updatedUser = null;
     }
 

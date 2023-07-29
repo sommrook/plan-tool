@@ -10,17 +10,20 @@ import com.project.plan.repository.PlanRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class PlanMemberService {
     private final MemberRepository memberRepository;
     private final PlanRepository planRepository;
     private final PlanMemberRepository planMemberRepository;
 
+    @Transactional
     public void add(Long planId, PlanMemberReqDto planMemberReqDto){
         List<Member> members = memberRepository.findByIds(planMemberReqDto.getWorkers());
         Plan plan = planRepository.findById(planId);
@@ -31,6 +34,7 @@ public class PlanMemberService {
         }
     }
 
+    @Transactional
     public void remove(Long planId, PlanMemberReqDto planMemberReqDto){
         Plan plan = planRepository.findById(planId);
         List<Member> members = memberRepository.findByIds(planMemberReqDto.getWorkers());

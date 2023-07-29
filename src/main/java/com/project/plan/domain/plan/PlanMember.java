@@ -43,8 +43,8 @@ public class PlanMember {
     }
 
     public void removePlanMember(){
-        this.plan.getPlanMembers().remove(this);
         this.member.getPlanMemberUser().remove(this);
+        this.member = null;
     }
 
     public static PlanMember createPlanMember(Plan plan, Member member){

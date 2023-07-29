@@ -13,17 +13,20 @@ import com.project.plan.repository.PlanRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class PlanService {
     private final MemberRepository memberRepository;
     private final CategoryRepository categoryRepository;
     private final PlanRepository planRepository;
     private final PlanMemberRepository planMemberRepository;
 
+    @Transactional
     public Plan save(PlanReqDto planReqDto, Long memberId){
         Member member = memberRepository.findById(memberId);
         Category category = categoryRepository.findById(planReqDto.getCategoryId());
@@ -35,12 +38,13 @@ public class PlanService {
         List<Member> workers = memberRepository.findByIds(planReqDto.getWorkers());
         for (Member worker : workers){
             PlanMember planMember= PlanMember.createPlanMember(plan, worker);
-            planMemberRepository.save(planMember);
+//            planMemberRepository.save(planMember);
         }
 
         return plan;
     }
 
+    @Transactional
     public void update(Long planId, PlanReqDto planReqDto, Long memberId){
         Member updatedUser = memberRepository.findById(memberId);
         Plan plan = planRepository.findById(planId);
@@ -48,9 +52,19 @@ public class PlanService {
         plan.updatePlan(planReqDto, updatedUser);
     }
 
+    public List<Plan> findAll(Long categoryId){
+        Category category = categoryRepository.findById(categoryId);
+        return planRepository.findAll(category);
+    }
+
+    @Transactional
     public void delete(Long planId){
         Plan plan = planRepository.findById(planId);
+        List<PlanMember> planMembers = plan.getPlanMembers();
         plan.removePlan();
+        for (PlanMember planMember : planMembers){
+            planMemberRepository.delete(planMember);
+        }
         planRepository.delete(plan);
     }
 
