@@ -34,7 +34,7 @@ public class PlanComment {
     @JoinColumn(name = "parent_id")
     private PlanComment parent;
 
-    @OneToMany(mappedBy = "parent")
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     private List<PlanComment> child = new ArrayList<>();
 
     public void addChildComment(PlanComment planComment){
@@ -53,16 +53,18 @@ public class PlanComment {
     }
 
     public void removeAtPlanCommentUser(){
+        // PlanComment 객체가 참조하고 있는 createdUser 인 Member 객체가 삭제될 때 호출되는 메서드
         this.createdUser = null;
     }
 
     // planComment 객체 삭제 시 호출
     public void removePlanComment() {
+        // 부모인 Plan 에서 삭제될 때
         this.plan.getPlanComments().remove(this);
         this.createdUser.getPlanCommentUser().remove(this);
-        if (this.parent != null) {
-            this.parent.getChild().remove(this);
-         }
+//        if (this.parent != null) {
+//            this.parent.getChild().remove(this);
+//         }
     }
 
     public void removeChildPlanComment() {

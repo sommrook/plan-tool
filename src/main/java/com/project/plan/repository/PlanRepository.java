@@ -42,6 +42,7 @@ public class PlanRepository {
 
     public void delete(Plan plan){
         em.remove(plan);
+//        em.clear();
     }
 
 }

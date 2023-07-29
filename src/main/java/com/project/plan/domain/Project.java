@@ -39,7 +39,7 @@ public class Project {
     @Column(nullable = false)
     private LocalDateTime updatedDate;
 
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE)
     private List<Category> categories = new ArrayList<>();
 
     @Column(nullable = false, columnDefinition = "boolean default false")
@@ -70,6 +70,7 @@ public class Project {
     }
 
     public void removeProject(){
+        // Project 객체에서 나 자신을 지울 때 호출하는 메서드
         this.solution.getProjects().remove(this);
     }
 }

@@ -49,7 +49,7 @@ public class Category {
     @JoinColumn(name = "pjt_id")
     private Project project;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE)
     private List<Plan> plans = new ArrayList<>();
 
     @Column(nullable = false, columnDefinition = "boolean default false")
@@ -78,15 +78,19 @@ public class Category {
 
     // createdUser FK인 Member 가 지워지면 null 처리
     public void removeAtCreatedUser(){
+        // Category 객체인 나 자신에서 참조하고 있는 createdUser Member 객체 정보가 지워질 때 호출하는 메서드
         this.createdUser = null;
     }
 
     public void removeAtUpdatedUser(){
+        // Category 객체인 나 자신에서 참조하고 있는 updatedUser Member 객체 정보가 지워질 때 호출하는 메서드
         this.updatedUser = null;
     }
 
     // 연관 관계 메서드
     public void removeCategory(){
+        // XXX
+        // Category 객체에서 나 자신을 지울 때 호출하는 메서드 => 안쓰임
         this.createdUser.getCategoryCreatedUser().remove(this);
         this.updatedUser.getCategoryUpdatedUser().remove(this);
         this.project.getCategories().remove(this);

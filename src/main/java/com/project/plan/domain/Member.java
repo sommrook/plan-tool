@@ -97,6 +97,7 @@ public class Member {
     }
 
     public void removeUser(){
+        // Member 객체에서 나 자신을 지울 때 호출하는 메소드
         /**
          * category 반복문을 도는 와중에 category.getCategoryCreatedUser().remove(this);
          * 을 해서 반복문이 다 돌기 전에 index가 달라져서 ConcurrentModificationException 이 터진다.

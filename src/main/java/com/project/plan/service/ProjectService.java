@@ -39,8 +39,12 @@ public class ProjectService {
 
     public void delete(Long projectId){
         Project project = projectRepository.findById(projectId);
-        project.removeProject();
+//        project.removeProject();
         projectRepository.delete(project);
+    }
+
+    public Project findOne(Long projectId){
+        return projectRepository.findById(projectId);
     }
 
     public List<Project> findAll(Long solutionId){

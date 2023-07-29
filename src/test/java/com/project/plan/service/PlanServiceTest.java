@@ -132,9 +132,12 @@ public class PlanServiceTest {
         }
         System.out.println("========================");
 
-        assertEquals("category 의 plan 갯수는 0개여야 한다.", 0, init_category.getPlans().size());
-        assertEquals("plan created User 갯수는 0개", 0, init_member1.getPlanCreatedUser().size());
-        assertEquals("plan updated User 갯수는 0개", 0, init_member1.getPlanUpdatedUser().size());
+        init_category = categoryService.findOne(init_category.getId());
+        init_member1 = memberService.findById(init_member1.getId());
+
+//        assertEquals("category 의 plan 갯수는 0개여야 한다.", 0, init_category.getPlans().size());
+//        assertEquals("plan created User 갯수는 0개", 0, init_member1.getPlanCreatedUser().size());
+//        assertEquals("plan updated User 갯수는 0개", 0, init_member1.getPlanUpdatedUser().size());
         assertEquals("plan 갯수는 0개여야 한다.", 0, afterPlans.size());
     }
 

@@ -48,6 +48,10 @@ public class CategoryService {
         return categoryRepository.findAll(project);
     }
 
+    public Category findOne(Long categoryId){
+        return categoryRepository.findById(categoryId);
+    }
+
     public void delete(Long categoryId){
         Category category = categoryRepository.findById(categoryId);
         category.removeCategory();

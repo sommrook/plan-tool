@@ -35,5 +35,4 @@ public class PlanCommentRepository {
         em.remove(planComment);
     }
 
-
 }

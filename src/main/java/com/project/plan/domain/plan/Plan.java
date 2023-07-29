@@ -78,20 +78,23 @@ public class Plan {
     }
 
     public void removeAtCreatedUser(){
+        // Plan 객체인 나 자신이 참조하고 있는 createdUser 가 삭제될 때 호출되는 메서드
         this.createdUser = null;
     }
 
     public void removeAtUpdatedUser(){
+        // Plan 객체인 나 자신이 참조하고 있는 updatedUser 가 삭제될 때 호출되는 메서드
         this.updatedUser = null;
     }
 
     // plan 객체 삭제 시 호출
     public void removePlan(){
-        // cascade 옵션 사용할 때에는 cascade 를 할 자식을 비우면 안된다.
         // PlanMember 는 Member 에서도 참조하고 있기 때문에 둘 중 하나만 cascade 옵션을 사용해야 한다.
-        this.category.getPlans().remove(this);
-        this.createdUser.getPlanCreatedUser().remove(this);
-        this.updatedUser.getPlanUpdatedUser().remove(this);
+//        this.category.getPlans().remove(this);
+//        this.createdUser.getPlanCreatedUser().remove(this);
+//        this.updatedUser.getPlanUpdatedUser().remove(this);
+
+        // cascade 를 사용하지 않을 때 자식의 또다른 부모 객체에서 "자식"의 정보를 지워줘야 한다.
         for (PlanMember planMember : this.planMembers){
             planMember.removePlanMemberUser();
         }

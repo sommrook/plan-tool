@@ -57,6 +57,10 @@ public class PlanService {
         return planRepository.findAll(category);
     }
 
+    public Plan findOne(Long planId){
+        return planRepository.findById(planId);
+    }
+
     @Transactional
     public void delete(Long planId){
         Plan plan = planRepository.findById(planId);

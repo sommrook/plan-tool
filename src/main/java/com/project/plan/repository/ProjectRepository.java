@@ -37,5 +37,6 @@ public class ProjectRepository {
 
     public void delete(Project project){
         em.remove(project);
+//        em.clear();
     }
 }
