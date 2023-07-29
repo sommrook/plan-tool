@@ -62,9 +62,9 @@ public class PlanComment {
         // 부모인 Plan 에서 삭제될 때
         this.plan.getPlanComments().remove(this);
         this.createdUser.getPlanCommentUser().remove(this);
-//        if (this.parent != null) {
-//            this.parent.getChild().remove(this);
-//         }
+        if (this.parent != null) {
+            this.parent.getChild().remove(this);
+         }
     }
 
     public void removeChildPlanComment() {

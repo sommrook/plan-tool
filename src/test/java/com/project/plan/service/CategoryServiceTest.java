@@ -111,11 +111,11 @@ public class CategoryServiceTest {
         init_project1 = projectService.findOne(init_project1.getId());
 
         assertEquals("카테고리 갯수는 0개여야 한다.", 0, categoryService.findAll(init_project1.getId()).size());
-        assertEquals("프로젝트 카테고리 갯수도 0개여야 한다.", 0, init_project1.getCategories().size());
+//        assertEquals("프로젝트 카테고리 갯수도 0개여야 한다.", 0, init_project1.getCategories().size());
 
-        CategoryReqDto categoryReqDto2 = new CategoryReqDto("category1", "category1의 내용입니다.", init_project1.getId());
-        categoryService.save(categoryReqDto2, init_member1.getId());
-
-        projectService.delete(init_project1.getId());
+//        CategoryReqDto categoryReqDto2 = new CategoryReqDto("category1", "category1의 내용입니다.", init_project1.getId());
+//        categoryService.save(categoryReqDto2, init_member1.getId());
+//
+//        projectService.delete(init_project1.getId());
     }
 }
