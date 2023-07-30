@@ -1,6 +1,7 @@
 package com.project.plan.repository;
 
 import com.project.plan.domain.Category;
+import com.project.plan.domain.Member;
 import com.project.plan.domain.Project;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,18 @@ public class CategoryRepository {
     public List<Category> findAll(Project project){
         return em.createQuery("select c from Category c where c.project = :project", Category.class)
                 .setParameter("project", project)
+                .getResultList();
+    }
+
+    public List<Category> findByCreatedUser(Member member){
+        return em.createQuery("select c from Category c where c.createdUser = :member", Category.class)
+                .setParameter("member", member)
+                .getResultList();
+    }
+
+    public List<Category> findByUpdatedUser(Member member){
+        return em.createQuery("select c from Category c where c.updatedUser = :member", Category.class)
+                .setParameter("member", member)
                 .getResultList();
     }
 

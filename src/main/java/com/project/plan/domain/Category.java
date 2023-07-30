@@ -68,12 +68,10 @@ public class Category {
 
     public void setCreatedUser(Member member){
         this.createdUser = member;
-        member.getCategoryCreatedUser().add(this);
     }
 
     public void setUpdatedUser(Member member){
         this.updatedUser = member;
-        member.getCategoryUpdatedUser().add(this);
     }
 
     // createdUser FK인 Member 가 지워지면 null 처리
@@ -91,19 +89,14 @@ public class Category {
     public void removeCategory(){
         // XXX
         // Category 객체에서 나 자신을 지울 때 호출하는 메서드 => 안쓰임
-        this.createdUser.getCategoryCreatedUser().remove(this);
-        this.updatedUser.getCategoryUpdatedUser().remove(this);
         this.project.getCategories().remove(this);
     }
 
     public void updateCategory(CategoryReqDto categoryReqDto, Member updatedUser){
         this.name = categoryReqDto.getName();
         this.detail = categoryReqDto.getDetail();
-        // 1. 원래 있던 updatedUser 의 Member 의 categoryUpdatedUser 에서 지워주고
-        this.updatedUser.getCategoryUpdatedUser().remove(this);
-        // 2. 새로운 updatedUser 를 할당한 후 Member 의 categoryUpdatedUser 에 추가해준다.
+        // 새로운 updatedUser 를 할당
         this.updatedUser = updatedUser;
-        updatedUser.getCategoryUpdatedUser().add(this);
     }
 
     public static Category createCategory(CategoryReqDto categoryReqDto, Project project, Member createdUser){

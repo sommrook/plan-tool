@@ -69,12 +69,10 @@ public class Plan {
 
     public void setCreatedUser(Member member){
         this.createdUser = member;
-        member.getPlanCreatedUser().add(this);
     }
 
     public void setUpdatedUser(Member member){
         this.updatedUser = member;
-        member.getPlanUpdatedUser().add(this);
     }
 
     public void removeAtCreatedUser(){
@@ -90,14 +88,7 @@ public class Plan {
     // plan 객체 삭제 시 호출
     public void removePlan(){
         // PlanMember 는 Member 에서도 참조하고 있기 때문에 둘 중 하나만 cascade 옵션을 사용해야 한다.
-//        this.category.getPlans().remove(this);
-//        this.createdUser.getPlanCreatedUser().remove(this);
-//        this.updatedUser.getPlanUpdatedUser().remove(this);
-
-        // cascade 를 사용하지 않을 때 자식의 또다른 부모 객체에서 "자식"의 정보를 지워줘야 한다.
-        for (PlanMember planMember : this.planMembers){
-            planMember.removePlanMemberUser();
-        }
+        this.category.getPlans().remove(this);
     }
 
     public void updatePlan(PlanReqDto planReqDto, Member updatedUser){
@@ -105,9 +96,6 @@ public class Plan {
         this.detail = planReqDto.getDetail();
         this.planStatus = planReqDto.getPlanStatus();
         this.developStatus = planReqDto.getDevelopStatus();
-
-        // 기존 updatedUser 지워주고
-        this.updatedUser.getPlanUpdatedUser().remove(this);
         setUpdatedUser(updatedUser);
     }
 

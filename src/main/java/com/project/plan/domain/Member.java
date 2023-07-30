@@ -51,28 +51,6 @@ public class Member {
     @Column(nullable = false)
     private LocalDateTime updatedDate;
 
-    @OneToMany(mappedBy = "createdUser")
-    private List<Category> categoryCreatedUser = new ArrayList<>();
-
-    @OneToMany(mappedBy = "updatedUser")
-    private List<Category> categoryUpdatedUser = new ArrayList<>();
-
-    // set null
-    @OneToMany(mappedBy = "createdUser")
-    private List<Plan> planCreatedUser = new ArrayList<>();
-
-    // set null
-    @OneToMany(mappedBy = "updatedUser")
-    private List<Plan> planUpdatedUser = new ArrayList<>();
-
-
-    @OneToMany(mappedBy = "createdUser")
-    private List<PlanComment> planCommentUser = new ArrayList<>();
-
-    // cascade
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<PlanMember> planMemberUser = new ArrayList<>();
-
     public static Member createMember(MemberReqDto memberReqDto){
         /*
         * 1. 비밀번호 암호화 => spring security
@@ -94,29 +72,6 @@ public class Member {
         this.email = memberReqDto.getEmail();
         this.team = memberReqDto.getTeam();
         this.permission = memberReqDto.getPermission();
-    }
-
-    public void removeUser(){
-        // Member 객체에서 나 자신을 지울 때 호출하는 메소드
-        /**
-         * category 반복문을 도는 와중에 category.getCategoryCreatedUser().remove(this);
-         * 을 해서 반복문이 다 돌기 전에 index가 달라져서 ConcurrentModificationException 이 터진다.
-         */
-        for (Category category: this.categoryCreatedUser){
-            category.removeAtCreatedUser();
-        }
-        for (Category category: this.categoryUpdatedUser){
-            category.removeAtUpdatedUser();
-        }
-        for (Plan plan: this.planCreatedUser){
-            plan.removeAtCreatedUser();
-        }
-        for (Plan plan: this.planUpdatedUser){
-            plan.removeAtUpdatedUser();
-        }
-        for (PlanComment planComment: this.planCommentUser){
-            planComment.removeAtPlanCommentUser();
-        }
     }
 
 }

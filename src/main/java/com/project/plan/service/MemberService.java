@@ -1,8 +1,12 @@
 package com.project.plan.service;
 
+import com.project.plan.domain.Category;
 import com.project.plan.domain.Member;
+import com.project.plan.domain.plan.Plan;
+import com.project.plan.domain.plan.PlanComment;
+import com.project.plan.domain.plan.PlanMember;
 import com.project.plan.dto.MemberReqDto;
-import com.project.plan.repository.MemberRepository;
+import com.project.plan.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +19,10 @@ import java.util.List;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final CategoryRepository categoryRepository;
+    private final PlanRepository planRepository;
+    private final PlanCommentRepository planCommentRepository;
+    private final PlanMemberRepository planMemberRepository;
 
     @Transactional
     public Member saveMember(MemberReqDto memberReqDto){
@@ -57,7 +65,26 @@ public class MemberService {
 
     public void deleteMember(Long memberId){
         Member member = memberRepository.findById(memberId);
-        member.removeUser();
+        for (Category category : categoryRepository.findByCreatedUser(member)){
+            category.removeAtCreatedUser();
+        }
+        for (Category category : categoryRepository.findByUpdatedUser(member)){
+            category.removeAtUpdatedUser();
+        }
+        for (Plan plan : planRepository.findByCreatedUser(member)){
+            plan.removeAtCreatedUser();
+        }
+        for (Plan plan : planRepository.findByUpdatedUser(member)){
+            plan.removeAtUpdatedUser();
+        }
+        for (PlanComment planComment : planCommentRepository.findByCreatedUser(member)){
+            planComment.removeAtPlanCommentUser();
+        }
+        List<PlanMember> planMembers = planMemberRepository.findByMember(member);
+        for (PlanMember planMember : planMembers){
+            planMember.removePlanMember();
+            planMemberRepository.delete(planMember);
+        }
         memberRepository.delete(member);
     }
 }

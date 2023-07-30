@@ -40,6 +40,12 @@ public class PlanMemberRepository {
                 .getResultList();
     }
 
+    public List<PlanMember> findByMember(Member member){
+        return em.createQuery("select pm from PlanMember pm where pm.member = :member", PlanMember.class)
+                .setParameter("member", member)
+                .getResultList();
+    }
+
     public void delete(PlanMember planMember){
         em.remove(planMember);
     }

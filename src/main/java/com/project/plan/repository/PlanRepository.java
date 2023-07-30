@@ -40,9 +40,20 @@ public class PlanRepository {
                 .getResultList();
     }
 
+    public List<Plan> findByCreatedUser(Member member){
+        return em.createQuery("select p from Plan p where p.createdUser = :member", Plan.class)
+                .setParameter("member", member)
+                .getResultList();
+    }
+
+    public List<Plan> findByUpdatedUser(Member member){
+        return em.createQuery("select p from Plan p where p.updatedUser = :member", Plan.class)
+                .setParameter("member", member)
+                .getResultList();
+    }
+
     public void delete(Plan plan){
         em.remove(plan);
-//        em.clear();
     }
 
 }

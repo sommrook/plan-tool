@@ -39,18 +39,11 @@ public class PlanMember {
 
     public void setMember(Member member){
         this.member = member;
-        member.getPlanMemberUser().add(this);
     }
 
     public void removePlanMember(){
         // Plan에서 지울 때가 아닌 PlanMember 객체 자체적으로 지울 때 호출하는 연관관계 메서드
         this.plan.getPlanMembers().remove(this);
-        this.member.getPlanMemberUser().remove(this);
-    }
-
-    public void removePlanMemberUser(){
-        // 부모인 Plan 객체 에서 지울 때 호출하는 연관관계 메서드
-        this.member.getPlanMemberUser().remove(this);
     }
 
     public static PlanMember createPlanMember(Plan plan, Member member){

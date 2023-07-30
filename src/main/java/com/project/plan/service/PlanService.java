@@ -38,7 +38,7 @@ public class PlanService {
         List<Member> workers = memberRepository.findByIds(planReqDto.getWorkers());
         for (Member worker : workers){
             PlanMember planMember= PlanMember.createPlanMember(plan, worker);
-//            planMemberRepository.save(planMember);
+            planMemberRepository.save(planMember);
         }
 
         return plan;

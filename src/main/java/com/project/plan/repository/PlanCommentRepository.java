@@ -1,5 +1,6 @@
 package com.project.plan.repository;
 
+import com.project.plan.domain.Member;
 import com.project.plan.domain.plan.Plan;
 import com.project.plan.domain.plan.PlanComment;
 import jakarta.persistence.EntityManager;
@@ -28,6 +29,12 @@ public class PlanCommentRepository {
     public List<PlanComment> findAll(Plan plan){
         return em.createQuery("select pc from PlanComment pc where pc.plan = :plan", PlanComment.class)
                 .setParameter("plan", plan)
+                .getResultList();
+    }
+
+    public List<PlanComment> findByCreatedUser(Member member){
+        return em.createQuery("select pc from PlanComment pc where pc.createdUser = :member", PlanComment.class)
+                .setParameter("member", member)
                 .getResultList();
     }
 

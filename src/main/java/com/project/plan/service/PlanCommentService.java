@@ -47,11 +47,11 @@ public class PlanCommentService {
 
     public void delete(Long planCommentId){
         PlanComment planComment = planCommentRepository.findById(planCommentId);
-//        planComment.removePlanComment();
-//        for (PlanComment childComment: planComment.getChild()){
-//            childComment.removeChildPlanComment();
-//            planCommentRepository.delete(childComment);
-//        }
+        planComment.removePlanComment();
+        for (PlanComment childComment: planComment.getChild()){
+            childComment.removeChildPlanComment();
+            planCommentRepository.delete(childComment);
+        }
         planCommentRepository.delete(planComment);
     }
 

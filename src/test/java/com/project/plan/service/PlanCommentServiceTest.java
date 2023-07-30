@@ -75,7 +75,7 @@ public class PlanCommentServiceTest {
 
         assertEquals("comment 갯수는 1개여야 합니다.", 1, planCommentService.findAll(init_plan.getId()).size());
         assertEquals("plan의 comment 갯수는 1개여야 합니다.", 1, init_plan.getPlanComments().size());
-        assertEquals("planCommentUser의 갯수는 1개여야 합니다.", 1, planComment.getCreatedUser().getPlanCommentUser().size());
+//        assertEquals("planCommentUser의 갯수는 1개여야 합니다.", 1, planComment.getCreatedUser().getPlanCommentUser().size());
 
         PlanCommentReqDto planCommentReqDto2 = new PlanCommentReqDto("comment1의 자식입니다.",
                 init_plan.getId(), planComment.getId(), null);
@@ -83,7 +83,7 @@ public class PlanCommentServiceTest {
 
         assertEquals("comment 갯수는 2개여야 합니다.", 2, planCommentService.findAll(init_plan.getId()).size());
         assertEquals("plan의 comment 갯수는 2개여야 합니다.", 2, init_plan.getPlanComments().size());
-        assertEquals("planCommentUser의 갯수는 2개여야 합니다.", 2, planComment.getCreatedUser().getPlanCommentUser().size());
+//        assertEquals("planCommentUser의 갯수는 2개여야 합니다.", 2, planComment.getCreatedUser().getPlanCommentUser().size());
     }
 
     @Test
@@ -109,14 +109,14 @@ public class PlanCommentServiceTest {
 
         assertEquals("comment 갯수는 2개여야 합니다.", 2, planCommentService.findAll(init_plan.getId()).size());
         assertEquals("plan의 comment 갯수는 2개여야 합니다.", 2, init_plan.getPlanComments().size());
-        assertEquals("planCommentUser의 갯수는 2개여야 합니다.", 2, planComment.getCreatedUser().getPlanCommentUser().size());
+//        assertEquals("planCommentUser의 갯수는 2개여야 합니다.", 2, planComment.getCreatedUser().getPlanCommentUser().size());
 
         planCommentService.delete(planComment.getId());
 
         init_plan = planService.findOne(init_plan.getId());
 
         assertEquals("comment 갯수는 0개여야 합니다.", 0, planCommentService.findAll(init_plan.getId()).size());
-//        assertEquals("plan의 comment 갯수는 0개여야 합니다.", 0, init_plan.getPlanComments().size());
+        assertEquals("plan의 comment 갯수는 0개여야 합니다.", 0, init_plan.getPlanComments().size());
 //        assertEquals("planCommentUser의 갯수는 0개여야 합니다.", 0, planComment.getCreatedUser().getPlanCommentUser().size());
     }
 
@@ -134,15 +134,15 @@ public class PlanCommentServiceTest {
 
         List<Plan> afterPlans = planService.findAll(init_category.getId());
 
-        for (PlanComment pm : init_member1.getPlanCommentUser()){
-            System.out.println("=========================");
-            System.out.println(pm.getContent());
-            System.out.println(pm.getPlan().getTitle());
-        }
+//        for (PlanComment pm : init_member1.getPlanCommentUser()){
+//            System.out.println("=========================");
+//            System.out.println(pm.getContent());
+//            System.out.println(pm.getPlan().getTitle());
+//        }
 
         init_category = categoryService.findOne(init_category.getId());
 
-//        assertEquals("category 의 plan 갯수는 0개여야 한다.", 0, init_category.getPlans().size());
+        assertEquals("category 의 plan 갯수는 0개여야 한다.", 0, init_category.getPlans().size());
         assertEquals("plan 갯수는 0개여야 한다.", 0, afterPlans.size());
     }
 
