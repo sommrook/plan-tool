@@ -132,16 +132,11 @@ public class PlanServiceTest {
         }
         System.out.println("========================");
 
-        init_category = categoryService.findOne(init_category.getId());
-        init_member1 = memberService.findById(init_member1.getId());
-
         assertEquals("category 의 plan 갯수는 0개여야 한다.", 0, init_category.getPlans().size());
-//        assertEquals("plan created User 갯수는 0개", 0, init_member1.getPlanCreatedUser().size());
-//        assertEquals("plan updated User 갯수는 0개", 0, init_member1.getPlanUpdatedUser().size());
         assertEquals("plan 갯수는 0개여야 한다.", 0, afterPlans.size());
     }
 
-//    @Test
+    @Test
 //    @Commit
     public void deleteMember() {
         System.out.println("create Plan");
@@ -152,8 +147,6 @@ public class PlanServiceTest {
         Plan plan = planService.save(planReqDto, init_member1.getId());
 
         List<PlanMember> planMembers = planMemberService.findAll(plan.getId());
-        PlanMember planMember1 = planMemberService.findOne(plan.getId(), init_member1.getId());
-        PlanMember planMember2 = planMemberService.findOne(plan.getId(), init_member2.getId());
 
         assertEquals("plan title의 값이 일치해야 한다.", "title1", plan.getTitle());
         assertEquals("plan detail의 값이 일치해야 한다.", "기획 변경", plan.getDetail());
@@ -161,9 +154,6 @@ public class PlanServiceTest {
 
         assertEquals("planMember의 정보와도 일치해야 한다.", 2, planMembers.size());
         assertEquals("plan의 createdUser가 일치해야 한다.", init_member1, plan.getCreatedUser());
-//        Assertions.assertThat(init_member1.getPlanCreatedUser()).contains(plan);
-//        Assertions.assertThat(init_member1.getPlanMemberUser()).contains(planMember1);
-//        Assertions.assertThat(init_member2.getPlanMemberUser()).contains(planMember2);
 
         memberService.deleteMember(init_member1.getId());
     }

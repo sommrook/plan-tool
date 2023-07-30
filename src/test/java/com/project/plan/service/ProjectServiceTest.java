@@ -90,9 +90,6 @@ public class ProjectServiceTest {
     @DisplayName("삭제 테스트")
     @Test
     public void delete(){
-
-//        Solution findSolution = solutionService.findById(2L);
-//        solutionService.delete(findSolution);
         SolutionReqDto solutionReqDto = new SolutionReqDto("Solution1", "solution1");
         Solution solution = solutionService.save(solutionReqDto);
 
