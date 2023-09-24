@@ -49,7 +49,7 @@ public class Category {
     @JoinColumn(name = "pjt_id")
     private Project project;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Plan> plans = new ArrayList<>();
 
     @Column(nullable = false, columnDefinition = "boolean default false")

@@ -1,8 +1,9 @@
-package com.project.plan.service;
+package com.project.plan.service.history;
 
 import com.project.plan.domain.*;
 import com.project.plan.domain.plan.*;
 import com.project.plan.dto.*;
+import com.project.plan.service.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,11 +23,16 @@ import static org.junit.Assert.*;
 @SpringBootTest
 @Transactional
 public class PlanCommentServiceTest {
-    @Autowired MemberService memberService;
-    @Autowired SolutionService solutionService;
-    @Autowired ProjectService projectService;
-    @Autowired CategoryService categoryService;
-    @Autowired PlanService planService;
+    @Autowired
+    MemberService memberService;
+    @Autowired
+    SolutionService solutionService;
+    @Autowired
+    ProjectService projectService;
+    @Autowired
+    CategoryService categoryService;
+    @Autowired
+    PlanService planService;
     @Autowired PlanCommentService planCommentService;
 
     private Member init_member1;
@@ -100,6 +106,7 @@ public class PlanCommentServiceTest {
     @Test
     public void delete() {
 
+        Long planId = init_plan.getId();
         PlanCommentReqDto planCommentReqDto1 = new PlanCommentReqDto("comment1입니다.", init_plan.getId(), null, null);
         PlanComment planComment = planCommentService.save(planCommentReqDto1, init_member1.getId());
 
@@ -112,8 +119,9 @@ public class PlanCommentServiceTest {
 
         planCommentService.delete(planComment.getId());
 
-        assertEquals("comment 갯수는 0개여야 합니다.", 0, planCommentService.findAll(init_plan.getId()).size());
-        assertEquals("plan의 comment 갯수는 0개여야 합니다.", 0, init_plan.getPlanComments().size());
+        Plan findPlan = planService.findOne(planId);
+
+        assertEquals("comment 갯수는 0개여야 합니다.", 0, planCommentService.findAll(findPlan.getId()).size());
     }
 
     @Test

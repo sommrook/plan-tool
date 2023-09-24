@@ -1,9 +1,10 @@
-package com.project.plan.service;
+package com.project.plan.service.history;
 
 import com.project.plan.domain.Member;
 import com.project.plan.domain.Permission;
 import com.project.plan.dto.MemberReqDto;
 import com.project.plan.repository.MemberRepository;
+import com.project.plan.service.MemberService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +25,8 @@ import static org.junit.Assert.*;
 @Transactional
 public class MemberServiceTest {
 
-    @Autowired MemberService memberService;
+    @Autowired
+    MemberService memberService;
 
     @Before
     public void createMember() throws Exception{

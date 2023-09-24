@@ -64,11 +64,11 @@ public class PlanService {
     @Transactional
     public void delete(Long planId){
         Plan plan = planRepository.findById(planId);
-        List<PlanMember> planMembers = plan.getPlanMembers();
+//        List<PlanMember> planMembers = plan.getPlanMembers();
         plan.removePlan();
-        for (PlanMember planMember : planMembers){
-            planMemberRepository.delete(planMember);
-        }
+//        for (PlanMember planMember : planMembers){
+//            planMemberRepository.delete(planMember);
+//        }
         planRepository.delete(plan);
     }
 

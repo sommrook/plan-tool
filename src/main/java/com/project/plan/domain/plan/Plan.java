@@ -55,10 +55,10 @@ public class Plan {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @OneToMany(mappedBy = "plan", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "plan", orphanRemoval = true)
     private List<PlanComment> planComments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "plan")
+    @OneToMany(mappedBy = "plan", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PlanMember> planMembers = new ArrayList<>();
 
     // 연관 관계 메서드

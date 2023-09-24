@@ -1,4 +1,4 @@
-package com.project.plan.service;
+package com.project.plan.service.history;
 
 import com.project.plan.domain.*;
 import com.project.plan.domain.plan.DevelopStatus;
@@ -6,6 +6,7 @@ import com.project.plan.domain.plan.Plan;
 import com.project.plan.domain.plan.PlanMember;
 import com.project.plan.domain.plan.PlanStatus;
 import com.project.plan.dto.*;
+import com.project.plan.service.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,10 +27,14 @@ public class PlanMemberServiceTest {
 
     @Autowired
     MemberService memberService;
-    @Autowired SolutionService solutionService;
-    @Autowired ProjectService projectService;
-    @Autowired CategoryService categoryService;
-    @Autowired PlanService planService;
+    @Autowired
+    SolutionService solutionService;
+    @Autowired
+    ProjectService projectService;
+    @Autowired
+    CategoryService categoryService;
+    @Autowired
+    PlanService planService;
     @Autowired PlanMemberService planMemberService;
 
     private Member init_member1;

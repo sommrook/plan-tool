@@ -1,9 +1,11 @@
-package com.project.plan.service;
+package com.project.plan.service.history;
 
 import com.project.plan.domain.Project;
 import com.project.plan.domain.Solution;
 import com.project.plan.dto.ProjectReqDto;
 import com.project.plan.dto.SolutionReqDto;
+import com.project.plan.service.ProjectService;
+import com.project.plan.service.SolutionService;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Before;
@@ -27,9 +29,11 @@ import static org.junit.Assert.*;
 @Transactional
 public class ProjectServiceTest {
 
-    @Autowired SolutionService solutionService;
+    @Autowired
+    SolutionService solutionService;
 
-    @Autowired ProjectService projectService;
+    @Autowired
+    ProjectService projectService;
 
     @DisplayName("프로젝트 생성 테스트")
     @Test

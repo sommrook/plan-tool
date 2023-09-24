@@ -1,7 +1,8 @@
-package com.project.plan.service;
+package com.project.plan.service.history;
 
 import com.project.plan.domain.Solution;
 import com.project.plan.dto.SolutionReqDto;
+import com.project.plan.service.SolutionService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
@@ -22,7 +23,8 @@ import static org.junit.Assert.*;
 @Transactional
 public class SolutionServiceTest {
 
-    @Autowired SolutionService solutionService;
+    @Autowired
+    SolutionService solutionService;
 
     @Before
     public void createSolution(){

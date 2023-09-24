@@ -1,4 +1,4 @@
-package com.project.plan.service;
+package com.project.plan.service.history;
 
 import com.project.plan.domain.*;
 import com.project.plan.domain.plan.DevelopStatus;
@@ -9,6 +9,7 @@ import com.project.plan.dto.*;
 import com.project.plan.repository.MemberRepository;
 import com.project.plan.repository.ProjectRepository;
 import com.project.plan.repository.SolutionRepository;
+import com.project.plan.service.*;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Before;
@@ -29,11 +30,16 @@ import static org.junit.Assert.*;
 @SpringBootTest
 @Transactional
 public class PlanServiceTest {
-    @Autowired MemberService memberService;
-    @Autowired SolutionService solutionService;
-    @Autowired ProjectService projectService;
-    @Autowired CategoryService categoryService;
-    @Autowired PlanService planService;
+    @Autowired
+    MemberService memberService;
+    @Autowired
+    SolutionService solutionService;
+    @Autowired
+    ProjectService projectService;
+    @Autowired
+    CategoryService categoryService;
+    @Autowired
+    PlanService planService;
     @Autowired PlanMemberService planMemberService;
 
     private Member init_member1;

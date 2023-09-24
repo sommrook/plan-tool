@@ -34,7 +34,7 @@ public class PlanComment {
     @JoinColumn(name = "parent_id")
     private PlanComment parent;
 
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PlanComment> child = new ArrayList<>();
 
     public void addChildComment(PlanComment planComment){

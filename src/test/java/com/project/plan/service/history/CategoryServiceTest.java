@@ -1,4 +1,4 @@
-package com.project.plan.service;
+package com.project.plan.service.history;
 
 import com.project.plan.domain.*;
 import com.project.plan.dto.CategoryReqDto;
@@ -8,6 +8,10 @@ import com.project.plan.dto.SolutionReqDto;
 import com.project.plan.repository.MemberRepository;
 import com.project.plan.repository.ProjectRepository;
 import com.project.plan.repository.SolutionRepository;
+import com.project.plan.service.CategoryService;
+import com.project.plan.service.MemberService;
+import com.project.plan.service.ProjectService;
+import com.project.plan.service.SolutionService;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,10 +33,14 @@ import static org.junit.Assert.fail;
 @Transactional
 public class CategoryServiceTest {
 
-    @Autowired MemberService memberService;
-    @Autowired SolutionService solutionService;
-    @Autowired ProjectService projectService;
-    @Autowired CategoryService categoryService;
+    @Autowired
+    MemberService memberService;
+    @Autowired
+    SolutionService solutionService;
+    @Autowired
+    ProjectService projectService;
+    @Autowired
+    CategoryService categoryService;
 
     private Member init_member1;
     private Member init_member2;
@@ -95,7 +103,7 @@ public class CategoryServiceTest {
     @Test
     public void delete(){
         CategoryReqDto categoryReqDto = new CategoryReqDto("category1", "category1의 내용입니다.", init_project1.getId());
-        Category category = categoryService.save(categoryReqDto, init_member1.getId());
+        Category category = categoryService.save(categoryReqDto, init_project1.getId());
 
         assertEquals("카테고리 갯수는 1개여야 한다.", 1, categoryService.findAll(init_project1.getId()).size());
         assertEquals("프로젝트 카테고리 갯수도 1개여야 한다.", 1, init_project1.getCategories().size());
