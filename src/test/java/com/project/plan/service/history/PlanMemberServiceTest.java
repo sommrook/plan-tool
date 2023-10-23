@@ -113,7 +113,7 @@ public class PlanMemberServiceTest {
 
         List<PlanMember> findAllPlanMember = planMemberService.findAll(init_plan.getId());
 
-        assertEquals("모든 멤버의 수는 0명이여야 한다.", 0, findAllPlanMember.size());
-        assertEquals("plan 의 member 수는 0명이여야 한다.", 0, init_plan.getPlanMembers().size());
+        assertEquals("모든 멤버의 수는 0명 이여야 한다.", 0, findAllPlanMember.size());
+        assertEquals("plan 의 member 수는 0명 이여야 한다.", 0, init_plan.getPlanMembers().size());
     }
 }

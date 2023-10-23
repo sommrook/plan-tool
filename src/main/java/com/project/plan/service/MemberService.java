@@ -65,6 +65,26 @@ public class MemberService {
 
     public void deleteMember(Long memberId){
         Member member = memberRepository.findById(memberId);
+        for (Category category : categoryRepository.findByCreatedUser(member)){
+            category.removeAtCreatedUser();
+        }
+        for (Category category : categoryRepository.findByUpdatedUser(member)){
+            category.removeAtUpdatedUser();
+        }
+        for (Plan plan : planRepository.findByCreatedUser(member)){
+            plan.removeAtCreatedUser();
+        }
+        for (Plan plan : planRepository.findByUpdatedUser(member)){
+            plan.removeAtUpdatedUser();
+        }
+        for (PlanComment planComment : planCommentRepository.findByCreatedUser(member)){
+            planComment.removeAtPlanCommentUser();
+        }
+        List<PlanMember> planMembers = planMemberRepository.findByMember(member);
+        for (PlanMember planMember : planMembers){
+            planMember.removePlanMember();
+            planMemberRepository.delete(planMember);
+        }
         memberRepository.delete(member);
     }
 }

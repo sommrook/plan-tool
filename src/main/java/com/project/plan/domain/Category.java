@@ -4,7 +4,7 @@ import com.project.plan.dto.CategoryReqDto;
 import com.project.plan.domain.plan.Plan;
 import jakarta.persistence.*;
 import lombok.Getter;
-import org.apache.catalina.User;
+
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;

@@ -162,5 +162,16 @@ public class PlanServiceTest {
         assertEquals("plan의 createdUser가 일치해야 한다.", init_member1, plan.getCreatedUser());
 
         memberService.deleteMember(init_member1.getId());
+
+        List<PlanMember> afterPlanMembers = planMemberService.findAll(plan.getId());
+
+        /*
+         * member만 생성 후 삭제했을 시, 에러가 없다가도,
+         * 해당 테스트에서 member 삭제를 하게 되면 에러가 나는데, (org.springframework.dao.DataIntegrityViolationException: ~~ PUBLIC.CATEGORY FOREIGN KEY(CREATED_USER) REFERENCES PUBLIC.MEMBER(MEMBER_ID) ~~)
+         * 이유는, category, plan의 created_user, updated_user가 사용된 상태에서, 연관되어있는 영속성 객체들에게 member가 지워졌을 때 null 값으로 설정 해주지 않았기 때문이였다.
+         */
+
+        assertEquals("plan의 member size은 1명이여야 한다.", 1, plan.getPlanMembers().size());
+        assertEquals("allMembers의 수는 1명이여야 한다.", 1, afterPlanMembers.size());
     }
 }
